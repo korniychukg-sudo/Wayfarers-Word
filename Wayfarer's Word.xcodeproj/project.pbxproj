@@ -1,0 +1,531 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		GT0000000000000000002001 /* WayfarersWordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001001 /* WayfarersWordApp.swift */; };
+		GT0000000000000000002002 /* ParchTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001002 /* ParchTheme.swift */; };
+		GT0000000000000000002003 /* WayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001003 /* WayModels.swift */; };
+		GT0000000000000000002004 /* WayStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001004 /* WayStore.swift */; };
+		GT0000000000000000002005 /* WayShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001005 /* WayShop.swift */; };
+		GT0000000000000000002006 /* WalkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001006 /* WalkView.swift */; };
+		GT0000000000000000002007 /* WayPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001007 /* WayPaywall.swift */; };
+		GT0000000000000000002008 /* AtlasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001008 /* AtlasView.swift */; };
+		GT0000000000000000002009 /* LoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001009 /* LoreView.swift */; };
+		GT0000000000000000002010 /* LogbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001010 /* LogbookView.swift */; };
+		GT0000000000000000002011 /* WaySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001011 /* WaySnapshot.swift */; };
+		GT0000000000000000002015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001015 /* Assets.xcassets */; };
+		GT0000000000000000002016 /* Maps in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001016 /* Maps */; };
+		GT0000000000000000002031 /* Vignettes in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001031 /* Vignettes */; };
+		GT0000000000000000002017 /* journeys.json in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001017 /* journeys.json */; };
+		GT0000000000000000002018 /* WayfarerWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001018 /* WayfarerWidgets.swift */; };
+		GT0000000000000000002019 /* WayWidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001019 /* WayWidgetViews.swift */; };
+		GT0000000000000000002030 /* WaySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001011 /* WaySnapshot.swift */; };
+		GT0000000000000000002021 /* MapsSmall in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001020 /* MapsSmall */; };
+		GT0000000000000000002022 /* WayfarersWordWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001021 /* WayfarersWordWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		GT0000000000000000003001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = GT0000000000000000005001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = GT0000000000000000004002;
+			remoteInfo = WayfarersWordWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		GT0000000000000000006001 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				GT0000000000000000002022 /* WayfarersWordWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		GT0000000000000000001000 /* Wayfarer's Word.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wayfarer's Word.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		GT0000000000000000001001 /* WayfarersWordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayfarersWordApp.swift; sourceTree = "<group>"; };
+		GT0000000000000000001002 /* ParchTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParchTheme.swift; sourceTree = "<group>"; };
+		GT0000000000000000001003 /* WayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayModels.swift; sourceTree = "<group>"; };
+		GT0000000000000000001004 /* WayStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayStore.swift; sourceTree = "<group>"; };
+		GT0000000000000000001005 /* WayShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayShop.swift; sourceTree = "<group>"; };
+		GT0000000000000000001006 /* WalkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkView.swift; sourceTree = "<group>"; };
+		GT0000000000000000001007 /* WayPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayPaywall.swift; sourceTree = "<group>"; };
+		GT0000000000000000001008 /* AtlasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasView.swift; sourceTree = "<group>"; };
+		GT0000000000000000001009 /* LoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoreView.swift; sourceTree = "<group>"; };
+		GT0000000000000000001010 /* LogbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogbookView.swift; sourceTree = "<group>"; };
+		GT0000000000000000001011 /* WaySnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaySnapshot.swift; sourceTree = "<group>"; };
+		GT0000000000000000001015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		GT0000000000000000001016 /* Maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Maps; sourceTree = "<group>"; };
+		GT0000000000000000001031 /* Vignettes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Vignettes; sourceTree = "<group>"; };
+		GT0000000000000000001017 /* journeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = journeys.json; sourceTree = "<group>"; };
+		GT0000000000000000001018 /* WayfarerWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayfarerWidgets.swift; sourceTree = "<group>"; };
+		GT0000000000000000001019 /* WayWidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayWidgetViews.swift; sourceTree = "<group>"; };
+		GT0000000000000000001020 /* MapsSmall */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MapsSmall; sourceTree = "<group>"; };
+		GT0000000000000000001021 /* WayfarersWordWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WayfarersWordWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		GT0000000000000000001022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		GT0000000000000000001023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		GT0000000000000000001024 /* WayfarersWord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WayfarersWord.entitlements; sourceTree = "<group>"; };
+		GT0000000000000000001025 /* WayfarersWordWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WayfarersWordWidgets.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		GT0000000000000000007001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		GT0000000000000000007002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		GT0000000000000000008001 = {
+			isa = PBXGroup;
+			children = (
+				GT0000000000000000008002 /* Wayfarer's Word */,
+				GT0000000000000000008003 /* Wayfarer's Word Widgets */,
+				GT0000000000000000008004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		GT0000000000000000008002 /* Wayfarer's Word */ = {
+			isa = PBXGroup;
+			children = (
+				GT0000000000000000001001 /* WayfarersWordApp.swift */,
+				GT0000000000000000001002 /* ParchTheme.swift */,
+				GT0000000000000000001003 /* WayModels.swift */,
+				GT0000000000000000001004 /* WayStore.swift */,
+				GT0000000000000000001005 /* WayShop.swift */,
+				GT0000000000000000001006 /* WalkView.swift */,
+				GT0000000000000000001007 /* WayPaywall.swift */,
+				GT0000000000000000001008 /* AtlasView.swift */,
+				GT0000000000000000001009 /* LoreView.swift */,
+				GT0000000000000000001010 /* LogbookView.swift */,
+				GT0000000000000000001011 /* WaySnapshot.swift */,
+				GT0000000000000000001015 /* Assets.xcassets */,
+				GT0000000000000000001016 /* Maps */,
+				GT0000000000000000001031 /* Vignettes */,
+				GT0000000000000000001017 /* journeys.json */,
+				GT0000000000000000001022 /* Info.plist */,
+				GT0000000000000000001024 /* WayfarersWord.entitlements */,
+			);
+			path = "Wayfarer's Word";
+			sourceTree = "<group>";
+		};
+		GT0000000000000000008003 /* Wayfarer's Word Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				GT0000000000000000001018 /* WayfarerWidgets.swift */,
+				GT0000000000000000001019 /* WayWidgetViews.swift */,
+				GT0000000000000000001020 /* MapsSmall */,
+				GT0000000000000000001023 /* Info.plist */,
+				GT0000000000000000001025 /* WayfarersWordWidgets.entitlements */,
+			);
+			path = "Wayfarer's Word Widgets";
+			sourceTree = "<group>";
+		};
+		GT0000000000000000008004 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				GT0000000000000000001000 /* Wayfarer's Word.app */,
+				GT0000000000000000001021 /* WayfarersWordWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		GT0000000000000000004001 /* Wayfarer's Word */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "Wayfarer's Word" */;
+			buildPhases = (
+				GT0000000000000000010001 /* Sources */,
+				GT0000000000000000007001 /* Frameworks */,
+				GT0000000000000000011001 /* Resources */,
+				GT0000000000000000006001 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				GT0000000000000000012001 /* PBXTargetDependency */,
+			);
+			name = "Wayfarer's Word";
+			productName = "Wayfarer's Word";
+			productReference = GT0000000000000000001000 /* Wayfarer's Word.app */;
+			productType = "com.apple.product-type.application";
+		};
+		GT0000000000000000004002 /* WayfarersWordWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "WayfarersWordWidgets" */;
+			buildPhases = (
+				GT0000000000000000010002 /* Sources */,
+				GT0000000000000000007002 /* Frameworks */,
+				GT0000000000000000011002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WayfarersWordWidgets;
+			productName = WayfarersWordWidgets;
+			productReference = GT0000000000000000001021 /* WayfarersWordWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		GT0000000000000000005001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					GT0000000000000000004001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					GT0000000000000000004002 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = GT0000000000000000009001 /* Build configuration list for PBXProject "Wayfarer's Word" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = GT0000000000000000008001;
+			productRefGroup = GT0000000000000000008004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				GT0000000000000000004001 /* Wayfarer's Word */,
+				GT0000000000000000004002 /* WayfarersWordWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		GT0000000000000000011001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				GT0000000000000000002015 /* Assets.xcassets in Resources */,
+				GT0000000000000000002016 /* Maps in Resources */,
+				GT0000000000000000002031 /* Vignettes in Resources */,
+				GT0000000000000000002017 /* journeys.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		GT0000000000000000011002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				GT0000000000000000002021 /* MapsSmall in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		GT0000000000000000010001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				GT0000000000000000002001 /* WayfarersWordApp.swift in Sources */,
+				GT0000000000000000002002 /* ParchTheme.swift in Sources */,
+				GT0000000000000000002003 /* WayModels.swift in Sources */,
+				GT0000000000000000002004 /* WayStore.swift in Sources */,
+				GT0000000000000000002005 /* WayShop.swift in Sources */,
+				GT0000000000000000002006 /* WalkView.swift in Sources */,
+				GT0000000000000000002007 /* WayPaywall.swift in Sources */,
+				GT0000000000000000002008 /* AtlasView.swift in Sources */,
+				GT0000000000000000002009 /* LoreView.swift in Sources */,
+				GT0000000000000000002010 /* LogbookView.swift in Sources */,
+				GT0000000000000000002011 /* WaySnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		GT0000000000000000010002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				GT0000000000000000002018 /* WayfarerWidgets.swift in Sources */,
+				GT0000000000000000002019 /* WayWidgetViews.swift in Sources */,
+				GT0000000000000000002030 /* WaySnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		GT0000000000000000012001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = GT0000000000000000004002 /* WayfarersWordWidgets */;
+			targetProxy = GT0000000000000000003001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		GT0000000000000000013001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wayfarersword.app;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		GT0000000000000000013002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wayfarersword.app;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		GT0000000000000000013003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word/WayfarersWord.entitlements";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Wayfarer's Word/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		GT0000000000000000013004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word/WayfarersWord.entitlements";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Wayfarer's Word/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		GT0000000000000000013005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word Widgets/WayfarersWordWidgets.entitlements";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Wayfarer's Word Widgets/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited).widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		GT0000000000000000013006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word Widgets/WayfarersWordWidgets.entitlements";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Wayfarer's Word Widgets/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited).widgets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		GT0000000000000000009001 /* Build configuration list for PBXProject "Wayfarer's Word" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				GT0000000000000000013001 /* Debug */,
+				GT0000000000000000013002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "Wayfarer's Word" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				GT0000000000000000013003 /* Debug */,
+				GT0000000000000000013004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "WayfarersWordWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				GT0000000000000000013005 /* Debug */,
+				GT0000000000000000013006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = GT0000000000000000005001 /* Project object */;
+}
