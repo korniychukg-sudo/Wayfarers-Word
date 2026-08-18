@@ -15,9 +15,9 @@ func rectF(_ x: Double, _ y: Double, _ w: Double, _ h: Double) -> CGRect {
 
 let journeyFeatures: [String: MapFeatures] = [
     "abraham": MapFeatures(
-        water: [[(0.0, 0.30), (0.10, 0.32), (0.14, 0.45), (0.12, 0.62), (0.05, 0.75), (0.0, 0.78)]],
+        water: [[(0.0, 0.22), (0.09, 0.26), (0.15, 0.38), (0.17, 0.52), (0.14, 0.68), (0.07, 0.82), (0.0, 0.86)]],
         rivers: [[(0.95, 0.55), (0.86, 0.66), (0.80, 0.82), (0.78, 0.95)], [(0.62, 0.05), (0.68, 0.22), (0.78, 0.38), (0.84, 0.52)], [(0.30, 0.30), (0.31, 0.44), (0.33, 0.58)]],
-        mountains: [rectF(0.42, 0.18, 0.2, 0.14), rectF(0.36, 0.5, 0.14, 0.1)],
+        mountains: [rectF(0.42, 0.18, 0.2, 0.14), rectF(0.54, 0.66, 0.18, 0.1)],
         dunes: [rectF(0.35, 0.75, 0.3, 0.14), rectF(0.55, 0.6, 0.2, 0.1)],
         palms: [(0.16, 0.82), (0.20, 0.88), (0.74, 0.20)]
     ),
@@ -79,7 +79,7 @@ let journeyFeatures: [String: MapFeatures] = [
 ]
 
 let seaLabels: [String: [(String, Double, Double)]] = [
-    "abraham": [("The Great Sea", 0.07, 0.52), ("Euphrates", 0.84, 0.72)],
+    "abraham": [("The Great Sea", 0.075, 0.5), ("Euphrates", 0.84, 0.72)],
     "exodus": [("The Red Sea", 0.47, 0.75), ("Nile", 0.075, 0.45), ("The Great Sea", 0.12, 0.07)],
     "wilderness": [("Gulf", 0.745, 0.14), ("Salt Sea", 0.755, 0.44)],
     "conquest": [("Salt Sea", 0.865, 0.76), ("Sea of Chinnereth", 0.87, 0.11), ("Jordan", 0.875, 0.4)],

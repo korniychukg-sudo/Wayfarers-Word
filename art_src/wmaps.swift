@@ -176,23 +176,32 @@ func drawRiver(_ ctx: CGContext, _ pts: [(Double, Double)], _ rng: inout WRNG, w
 }
 
 func drawMountains(_ ctx: CGContext, _ region: CGRect, count: Int, _ rng: inout WRNG) {
-    for _ in 0..<count {
-        let x = rng.d(region.minX, region.maxX)
-        let y = rng.d(region.minY, region.maxY)
-        let s = rng.d(20, 40)
-        let m = CGMutablePath()
-        m.move(to: CGPoint(x: x - s, y: y))
-        m.addLine(to: CGPoint(x: x, y: y - s * rng.d(0.9, 1.3)))
-        m.addLine(to: CGPoint(x: x + s, y: y))
-        wStroke(ctx, m, wInk.copy(alpha: 0.8)!, 2.0)
-        let shade = CGMutablePath()
-        shade.move(to: CGPoint(x: x, y: y - s * 0.9))
-        shade.addLine(to: CGPoint(x: x + s * 0.5, y: y))
-        for t in stride(from: 0.25, through: 0.75, by: 0.25) {
-            shade.move(to: CGPoint(x: x + s * 0.16 * t * 3, y: y - s * (0.9 - 0.8 * t)))
-            shade.addLine(to: CGPoint(x: x + s * 0.55 * t + s * 0.18, y: y - rng.d(0, 4)))
+    let chains = max(1, count / 8)
+    for _ in 0..<chains {
+        let y0 = rng.d(region.minY + region.height * 0.2, region.maxY - region.height * 0.1)
+        let x0 = region.minX + rng.d(0, region.width * 0.2)
+        let x1 = region.maxX - rng.d(0, region.width * 0.2)
+        let peaks = max(4, count / chains)
+        for k in 0..<peaks {
+            let t = Double(k) / Double(max(peaks - 1, 1))
+            let x = x0 + (x1 - x0) * t + rng.d(-14, 14)
+            let y = y0 + sin(t * .pi * rng.d(0.8, 1.6)) * region.height * 0.16 + rng.d(-8, 8)
+            let s = rng.d(24, 44) * (0.8 + 0.4 * sin(t * .pi))
+            let m = CGMutablePath()
+            m.move(to: CGPoint(x: x - s, y: y))
+            m.addQuadCurve(to: CGPoint(x: x - s * 0.1, y: y - s), control: CGPoint(x: x - s * 0.55, y: y - s * 0.45))
+            m.addQuadCurve(to: CGPoint(x: x + s * 0.9, y: y), control: CGPoint(x: x + s * 0.4, y: y - s * 0.5))
+            ctx.setFillColor(wPaper)
+            ctx.addPath(m)
+            ctx.fillPath()
+            wStroke(ctx, m, wInk.copy(alpha: 0.85)!, 2.0)
+            let shade = CGMutablePath()
+            for st in stride(from: 0.3, through: 0.8, by: 0.25) {
+                shade.move(to: CGPoint(x: x - s * 0.1 + s * st * 0.9, y: y - s * (1 - st)))
+                shade.addLine(to: CGPoint(x: x - s * 0.1 + s * st * 1.1 + s * 0.12, y: y - rng.d(0, 4)))
+            }
+            wStroke(ctx, shade, wInkSoft, 1.0)
         }
-        wStroke(ctx, shade, wInkSoft, 1.1)
     }
 }
 

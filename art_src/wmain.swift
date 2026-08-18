@@ -52,14 +52,20 @@ struct WGenMain {
             let route = CGMutablePath()
             let pts = journey.waypoints.map { CGPoint(x: $0.x * MW, y: $0.y * MH) }
             route.move(to: pts[0])
+            var bowSign = 1.0
             for j in 1..<pts.count {
                 let prev = pts[j - 1]
                 let cur = pts[j]
-                let mid = CGPoint(x: (prev.x + cur.x) / 2 + rng.d(-26, 26), y: (prev.y + cur.y) / 2 + rng.d(-26, 26))
-                route.addQuadCurve(to: cur, control: mid)
+                let dx = cur.x - prev.x
+                let dy = cur.y - prev.y
+                let segLen = max(sqrt(dx * dx + dy * dy), 1)
+                let amp = min(segLen * 0.22, MW * 0.03) * bowSign
+                let ctrl = CGPoint(x: (prev.x + cur.x) / 2 - dy / segLen * amp, y: (prev.y + cur.y) / 2 + dx / segLen * amp)
+                route.addQuadCurve(to: cur, control: ctrl)
+                bowSign = -bowSign
             }
-            wStroke(ctx, route, wc(0.30, 0.18, 0.06, 0.35), 7)
-            wStroke(ctx, route, wSeal, 3.4, dash: [14, 9])
+            wStroke(ctx, route, wc(0.30, 0.18, 0.06, 0.28), 6)
+            wStroke(ctx, route, wSeal.copy(alpha: 0.85)!, 3.0, dash: [13, 9])
         
             for (k, p) in pts.enumerated() {
                 let start = k == 0

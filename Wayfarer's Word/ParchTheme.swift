@@ -250,31 +250,59 @@ struct JourneyMapView: View {
     let journey: WWJourney
     let walkedCount: Int
 
+    private func routePath(points: [CGPoint], upTo lastIndex: Int, width: CGFloat) -> Path {
+        var path = Path()
+        guard points.count > 1, lastIndex >= 1 else { return path }
+        path.move(to: points[0])
+        var bowSign: CGFloat = 1
+        for j in 1..<points.count {
+            let prev = points[j - 1]
+            let cur = points[j]
+            let dx = cur.x - prev.x
+            let dy = cur.y - prev.y
+            let segLen = max(sqrt(dx * dx + dy * dy), 1)
+            let amp = min(segLen * 0.22, width * 0.03) * bowSign
+            let ctrl = CGPoint(x: (prev.x + cur.x) / 2 - dy / segLen * amp, y: (prev.y + cur.y) / 2 + dx / segLen * amp)
+            if j <= lastIndex {
+                path.addQuadCurve(to: cur, control: ctrl)
+            }
+            bowSign = -bowSign
+        }
+        return path
+    }
+
     var body: some View {
         GeometryReader { geo in
-            ZStack {
+            ZStack(alignment: .topLeading) {
                 if let ui = WayArt.map(journey.id) {
                     Image(uiImage: ui)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: geo.size.width, height: geo.size.height)
                 }
-                Canvas { ctx, size in
-                    let pts = journey.waypoints.map { CGPoint(x: $0.x * size.width, y: $0.y * size.height) }
-                    guard !pts.isEmpty else { return }
-                    if walkedCount > 1 {
-                        var walked = Path()
-                        walked.move(to: pts[0])
-                        for j in 1..<min(walkedCount, pts.count) {
-                            walked.addLine(to: pts[j])
-                        }
-                        ctx.stroke(walked, with: .color(Parch.gold), style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+                let pts = journey.waypoints.map { CGPoint(x: $0.x * geo.size.width, y: $0.y * geo.size.height) }
+                if !pts.isEmpty {
+                    let lastIndex = min(max(walkedCount - 1, 0), pts.count - 1)
+                    if lastIndex >= 1 {
+                        let walkedPath = routePath(points: pts, upTo: lastIndex, width: geo.size.width)
+                        walkedPath
+                            .stroke(Color(red: 0.30, green: 0.18, blue: 0.06).opacity(0.45),
+                                    style: StrokeStyle(lineWidth: 5.5, lineCap: .round, lineJoin: .round))
+                        walkedPath
+                            .stroke(LinearGradient(colors: [Parch.goldBright, Parch.gold], startPoint: .top, endPoint: .bottom),
+                                    style: StrokeStyle(lineWidth: 3.4, lineCap: .round, lineJoin: .round))
+                        walkedPath
+                            .stroke(Color(red: 0.99, green: 0.9, blue: 0.6).opacity(0.9),
+                                    style: StrokeStyle(lineWidth: 1.1, lineCap: .round, lineJoin: .round))
                     }
-                    let markerIndex = min(max(walkedCount - 1, 0), pts.count - 1)
-                    let m = pts[markerIndex]
-                    ctx.fill(Path(ellipseIn: CGRect(x: m.x - 11, y: m.y - 11, width: 22, height: 22)), with: .color(Parch.gold.opacity(0.3)))
-                    ctx.fill(Path(ellipseIn: CGRect(x: m.x - 6.5, y: m.y - 6.5, width: 13, height: 13)), with: .color(Parch.goldBright))
-                    ctx.stroke(Path(ellipseIn: CGRect(x: m.x - 6.5, y: m.y - 6.5, width: 13, height: 13)), with: .color(Parch.ink), lineWidth: 1.6)
+                    let m = pts[lastIndex]
+                    Circle()
+                        .fill(Parch.goldBright.opacity(0.28))
+                        .frame(width: 30, height: 30)
+                        .position(m)
+                    WayIcon(kind: "camel", size: 24, color: Parch.ink)
+                        .shadow(color: Parch.paper.opacity(0.9), radius: 2)
+                        .position(x: m.x, y: m.y - 4)
                 }
             }
         }
