@@ -236,7 +236,7 @@ struct WayOnboardingView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack(alignment: .topLeading) {
                 ParchBackground()
                 if page < 3 {
                     VStack(spacing: 0) {
@@ -284,6 +284,20 @@ struct WayOnboardingView: View {
                     WayPaywallView {
                         store.completeOnboarding()
                     }
+                }
+                if page > 0 && page < 3 {
+                    Button {
+                        withAnimation { page -= 1 }
+                    } label: {
+                        WayIcon(kind: "chevron", size: 15, color: Parch.inkSoft)
+                            .rotationEffect(.degrees(180))
+                            .padding(11)
+                            .background(Circle().fill(Parch.card))
+                            .overlay(Circle().stroke(Parch.inkFaint, lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.leading, 20)
+                    .padding(.top, 8)
                 }
             }
             .navigationBarHidden(true)

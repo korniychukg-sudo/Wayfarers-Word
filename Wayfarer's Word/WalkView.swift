@@ -319,7 +319,10 @@ struct RoadWalkedOverlay: View {
 
     var body: some View {
         ZStack {
-            Parch.ink.opacity(0.45).ignoresSafeArea()
+            Parch.ink.opacity(0.45)
+                .ignoresSafeArea()
+                .contentShape(Rectangle())
+                .onTapGesture { onDismiss() }
             VStack(spacing: 18) {
                 VStack(spacing: 6) {
                     Text("ROAD WALKED")
