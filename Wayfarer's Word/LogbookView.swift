@@ -68,6 +68,36 @@ struct LogbookView: View {
                     .background(RoundedRectangle(cornerRadius: 14).fill(Parch.card))
                     .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.inkFaint.opacity(0.5), lineWidth: 1))
 
+                    if !store.notedWaypoints.isEmpty {
+                        Text("FIELD NOTES")
+                            .font(.parchTitle(11))
+                            .foregroundColor(Parch.road)
+                            .kerning(1.6)
+                        VStack(spacing: 10) {
+                            ForEach(store.notedWaypoints, id: \.3.hashValue) { entry in
+                                VStack(alignment: .leading, spacing: 5) {
+                                    HStack {
+                                        Text(entry.1.place)
+                                            .font(.parchTitle(13.5))
+                                            .foregroundColor(Parch.ink)
+                                        Spacer()
+                                        Text(entry.0.title)
+                                            .font(.parchSerif(11))
+                                            .foregroundColor(Parch.inkSoft)
+                                    }
+                                    Text(entry.3)
+                                        .font(.parchItalic(14))
+                                        .foregroundColor(Parch.inkSoft)
+                                        .lineSpacing(3)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(13)
+                                .background(RoundedRectangle(cornerRadius: 12).fill(Parch.road.opacity(0.05)))
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Parch.road.opacity(0.3), lineWidth: 1))
+                            }
+                        }
+                    }
+
                     Text("AWARDS")
                         .font(.parchTitle(11))
                         .foregroundColor(Parch.gold)

@@ -18,6 +18,7 @@ struct WaySave: Codable {
     var onboarded: Bool = false
     var plusUnlocked: Bool = false
     var walkDates: [Double] = []
+    var fieldNotes: [String: String]? = nil
 }
 
 final class WayStore: ObservableObject {
@@ -31,6 +32,8 @@ final class WayStore: ObservableObject {
     @Published var quizBest: Int = 0
     @Published var onboarded: Bool = false
     @Published var plusUnlocked: Bool = false
+    @Published var celebrateJourney: WWJourney? = nil
+    @Published private(set) var fieldNotes: [String: String] = [:]
     private var lastWalkStamp: Date? = nil
     private var walkDates: [Date] = []
 
@@ -107,7 +110,34 @@ final class WayStore: ObservableObject {
             walkDates.append(today)
             if walkDates.count > 80 { walkDates.removeFirst(walkDates.count - 80) }
         }
+        if journeyDone(journey), let j = content.byID[journey] {
+            celebrateJourney = j
+        }
         persist()
+    }
+
+    func fieldNote(for t: String) -> String? { fieldNotes[t] }
+
+    func setFieldNote(_ t: String, _ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty {
+            fieldNotes.removeValue(forKey: t)
+        } else {
+            fieldNotes[t] = trimmed
+        }
+        persist()
+    }
+
+    var notedWaypoints: [(WWJourney, WWWaypoint, Int, String)] {
+        var out: [(WWJourney, WWWaypoint, Int, String)] = []
+        for j in content.journeys {
+            for (k, w) in j.waypoints.enumerated() {
+                if let text = fieldNotes[token(j.journey, k)] {
+                    out.append((j, w, k, text))
+                }
+            }
+        }
+        return out
     }
 
     func drainWidgetQueue() {
@@ -181,6 +211,7 @@ final class WayStore: ObservableObject {
 
     func resetProgress() {
         walked = []
+        fieldNotes = [:]
         streak = 0
         bestStreak = 0
         quizBest = 0
@@ -201,6 +232,7 @@ final class WayStore: ObservableObject {
         save.onboarded = onboarded
         save.plusUnlocked = plusUnlocked
         save.walkDates = walkDates.map { $0.timeIntervalSince1970 }
+        save.fieldNotes = fieldNotes
         if let data = try? JSONEncoder().encode(save) {
             UserDefaults.standard.set(data, forKey: WayStore.saveKey)
         }
@@ -218,6 +250,7 @@ final class WayStore: ObservableObject {
         onboarded = save.onboarded
         plusUnlocked = save.plusUnlocked
         walkDates = save.walkDates.map { Date(timeIntervalSince1970: $0) }
+        fieldNotes = save.fieldNotes ?? [:]
         if let stamp = save.lastWalkStamp {
             lastWalkStamp = Date(timeIntervalSince1970: stamp)
         }

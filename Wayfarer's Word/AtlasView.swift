@@ -81,6 +81,24 @@ struct AtlasView: View {
                     .padding(14)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Parch.card.opacity(0.92)))
                 }
+                if done {
+                    VStack(spacing: 2) {
+                        Text("ROAD WALKED")
+                            .font(.parchTitle(17))
+                            .foregroundColor(Parch.road)
+                            .kerning(2)
+                        Text("\(journey.totalMiles) MILES")
+                            .font(.parchTitle(9))
+                            .foregroundColor(Parch.road.opacity(0.85))
+                            .kerning(1.4)
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(RoundedRectangle(cornerRadius: 6).fill(Parch.paper.opacity(0.55)))
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Parch.road, lineWidth: 2.6))
+                    .overlay(RoundedRectangle(cornerRadius: 9).stroke(Parch.road.opacity(0.5), lineWidth: 1.2).padding(-4))
+                    .rotationEffect(.degrees(-9))
+                }
             }
             VStack(alignment: .leading, spacing: 5) {
                 HStack {
@@ -122,6 +140,8 @@ struct AtlasView: View {
 struct JourneyDetailView: View {
     @EnvironmentObject var store: WayStore
     let journey: WWJourney
+    @State private var tappedIndex: Int? = nil
+    @State private var tapActive = false
 
     var body: some View {
         ZStack {
@@ -136,6 +156,35 @@ struct JourneyDetailView: View {
                         .foregroundColor(Parch.inkSoft)
 
                     JourneyMapView(journey: journey, walkedCount: max(store.walkedCount(journey.journey), 1))
+                        .overlay(
+                            GeometryReader { geo in
+                                Color.clear
+                                    .contentShape(Rectangle())
+                                    .onTapGesture(coordinateSpace: .local) { location in
+                                        let fx = location.x / geo.size.width
+                                        let fy = location.y / geo.size.height
+                                        var best: (Int, Double)? = nil
+                                        for (k, w) in journey.waypoints.enumerated() {
+                                            let d = hypot(fx - w.x, fy - w.y)
+                                            if d < 0.09 && (best == nil || d < best!.1) {
+                                                best = (k, d)
+                                            }
+                                        }
+                                        if let hit = best {
+                                            let reachable = store.isWalked(journey.journey, hit.0) || hit.0 == store.nextIndex(journey.journey)
+                                            if reachable {
+                                                tappedIndex = hit.0
+                                                tapActive = true
+                                            }
+                                        }
+                                    }
+                            }
+                        )
+
+                    Text("Tap a camp on the map to open it.")
+                        .font(.parchItalic(12))
+                        .foregroundColor(Parch.inkFaint)
+                        .frame(maxWidth: .infinity)
 
                     if store.activeJourney != journey.journey {
                         Button {
@@ -195,6 +244,26 @@ struct JourneyDetailView: View {
         }
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $tapActive) {
+            if let idx = tappedIndex {
+                NavigationView {
+                    ZStack {
+                        ParchBackground()
+                        WaypointReader(journey: journey, waypoint: journey.waypoints[idx], index: idx, isCurrent: false)
+                    }
+                    .navigationTitle("")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") { tapActive = false }
+                                .foregroundColor(Parch.inkSoft)
+                        }
+                    }
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .preferredColorScheme(.light)
+            }
+        }
     }
 
     @ViewBuilder
