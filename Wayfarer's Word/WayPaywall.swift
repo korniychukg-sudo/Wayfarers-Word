@@ -156,13 +156,16 @@ struct WayPaywallView: View {
         let caption: String
         switch product.id {
         case WayShop.weeklyID: caption = "per week"
+        case WayShop.monthlyID: caption = "per month"
         case WayShop.yearlyID: caption = "per year"
         default: caption = "once, forever"
         }
+        let savings = shop.savingsPercent(product)
+        let perWeek = shop.perWeekPrice(product)
         return Button {
             selected = product.id
         } label: {
-            HStack {
+            HStack(spacing: 10) {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 8) {
                         Text(product.displayName.isEmpty ? planName(product.id) : product.displayName)
@@ -177,11 +180,18 @@ struct WayPaywallView: View {
                                 .background(Capsule().fill(Parch.road))
                         }
                     }
-                    Text("\(product.displayPrice) \(caption)")
+                    Text(perWeek == nil ? "\(product.displayPrice) \(caption)" : "\(product.displayPrice) \(caption) · \(perWeek ?? "") / week")
                         .font(.parchSerif(13))
                         .foregroundColor(Parch.inkSoft)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                    if let savings {
+                        Text("Save \(savings)% vs weekly")
+                            .font(.parchTitle(12))
+                            .foregroundColor(Parch.gold)
+                    }
                 }
-                Spacer()
+                Spacer(minLength: 0)
                 Circle()
                     .stroke(isSelected ? Parch.gold : Parch.inkFaint, lineWidth: 2)
                     .frame(width: 22, height: 22)
@@ -197,6 +207,7 @@ struct WayPaywallView: View {
     private func planName(_ id: String) -> String {
         switch id {
         case WayShop.weeklyID: return "Weekly"
+        case WayShop.monthlyID: return "Monthly"
         case WayShop.yearlyID: return "Yearly"
         default: return "Lifetime"
         }

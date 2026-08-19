@@ -6,9 +6,10 @@ final class WayShop: ObservableObject {
     static let shared = WayShop()
 
     static let weeklyID = "com.wayfarersword.app.plus.weekly"
+    static let monthlyID = "com.wayfarersword.app.plus.monthly"
     static let yearlyID = "com.wayfarersword.app.plus.yearly"
     static let lifetimeID = "com.wayfarersword.app.plus.lifetime"
-    static let allIDs = [weeklyID, yearlyID, lifetimeID]
+    static let allIDs = [weeklyID, monthlyID, yearlyID, lifetimeID]
 
     @Published var products: [Product] = []
     @Published var loading = false
@@ -29,6 +30,34 @@ final class WayShop: ObservableObject {
     }
 
     func product(_ id: String) -> Product? { products.first { $0.id == id } }
+
+    func weeksIn(_ product: Product) -> Double? {
+        guard let period = product.subscription?.subscriptionPeriod else { return nil }
+        switch period.unit {
+        case .day: return Double(period.value) / 7.0
+        case .week: return Double(period.value)
+        case .month: return Double(period.value) * 4.345
+        case .year: return Double(period.value) * 52.143
+        @unknown default: return nil
+        }
+    }
+
+    func perWeekPrice(_ product: Product) -> String? {
+        guard let weeks = weeksIn(product), weeks > 1.05 else { return nil }
+        return (product.price / Decimal(weeks)).formatted(product.priceFormatStyle)
+    }
+
+    func savingsPercent(_ product: Product) -> Int? {
+        guard let weekly = self.product(Self.weeklyID),
+              let baseWeeks = weeksIn(weekly), baseWeeks > 0,
+              let weeks = weeksIn(product), weeks > baseWeeks else { return nil }
+        let base = weekly.price / Decimal(baseWeeks)
+        let mine = product.price / Decimal(weeks)
+        guard base > 0 else { return nil }
+        let saved = NSDecimalNumber(decimal: (base - mine) / base).doubleValue * 100
+        guard saved >= 1, saved < 100 else { return nil }
+        return Int(saved.rounded())
+    }
 
     func loadProducts() async {
         guard products.isEmpty else { return }
