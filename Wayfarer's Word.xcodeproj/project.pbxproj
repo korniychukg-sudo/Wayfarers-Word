@@ -21,6 +21,8 @@
 		GT0000000000000000002015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001015 /* Assets.xcassets */; };
 		GT0000000000000000002016 /* Maps in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001016 /* Maps */; };
 		GT0000000000000000002031 /* Vignettes in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001031 /* Vignettes */; };
+		GT0000000000000000002032 /* BibleReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001032 /* BibleReaderView.swift */; };
+		GT0000000000000000002033 /* kjv.json in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001033 /* kjv.json */; };
 		GT0000000000000000002017 /* journeys.json in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001017 /* journeys.json */; };
 		GT0000000000000000002018 /* WayfarerWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001018 /* WayfarerWidgets.swift */; };
 		GT0000000000000000002019 /* WayWidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001019 /* WayWidgetViews.swift */; };
@@ -70,6 +72,8 @@
 		GT0000000000000000001016 /* Maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Maps; sourceTree = "<group>"; };
 		GT0000000000000000001031 /* Vignettes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Vignettes; sourceTree = "<group>"; };
 		GT0000000000000000001017 /* journeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = journeys.json; sourceTree = "<group>"; };
+		GT0000000000000000001032 /* BibleReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleReaderView.swift; sourceTree = "<group>"; };
+		GT0000000000000000001033 /* kjv.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = kjv.json; sourceTree = "<group>"; };
 		GT0000000000000000001018 /* WayfarerWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayfarerWidgets.swift; sourceTree = "<group>"; };
 		GT0000000000000000001019 /* WayWidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayWidgetViews.swift; sourceTree = "<group>"; };
 		GT0000000000000000001020 /* MapsSmall */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MapsSmall; sourceTree = "<group>"; };
@@ -121,10 +125,12 @@
 				GT0000000000000000001009 /* LoreView.swift */,
 				GT0000000000000000001010 /* LogbookView.swift */,
 				GT0000000000000000001011 /* WaySnapshot.swift */,
+				GT0000000000000000001032 /* BibleReaderView.swift */,
 				GT0000000000000000001015 /* Assets.xcassets */,
 				GT0000000000000000001016 /* Maps */,
 				GT0000000000000000001031 /* Vignettes */,
 				GT0000000000000000001017 /* journeys.json */,
+				GT0000000000000000001033 /* kjv.json */,
 				GT0000000000000000001022 /* Info.plist */,
 				GT0000000000000000001024 /* WayfarersWord.entitlements */,
 			);
@@ -237,6 +243,7 @@
 				GT0000000000000000002016 /* Maps in Resources */,
 				GT0000000000000000002031 /* Vignettes in Resources */,
 				GT0000000000000000002017 /* journeys.json in Resources */,
+				GT0000000000000000002033 /* kjv.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +273,7 @@
 				GT0000000000000000002009 /* LoreView.swift in Sources */,
 				GT0000000000000000002010 /* LogbookView.swift in Sources */,
 				GT0000000000000000002011 /* WaySnapshot.swift in Sources */,
+				GT0000000000000000002032 /* BibleReaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +400,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -422,7 +430,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -451,7 +459,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited).widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -481,7 +489,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited).widgets";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

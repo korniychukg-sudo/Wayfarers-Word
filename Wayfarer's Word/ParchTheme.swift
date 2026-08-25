@@ -1,49 +1,91 @@
 import SwiftUI
 
 enum Parch {
-    static let paper = Color(red: 0.929, green: 0.888, blue: 0.784)
-    static let paperDeep = Color(red: 0.878, green: 0.820, blue: 0.694)
-    static let card = Color(red: 0.957, green: 0.929, blue: 0.859)
-    static let ink = Color(red: 0.235, green: 0.196, blue: 0.137)
-    static let inkSoft = Color(red: 0.235, green: 0.196, blue: 0.137).opacity(0.6)
-    static let inkFaint = Color(red: 0.235, green: 0.196, blue: 0.137).opacity(0.32)
-    static let gold = Color(red: 0.663, green: 0.478, blue: 0.149)
-    static let goldBright = Color(red: 0.831, green: 0.647, blue: 0.243)
-    static let road = Color(red: 0.416, green: 0.208, blue: 0.169)
-    static let water = Color(red: 0.318, green: 0.412, blue: 0.471)
+    static let paper = Color(red: 0.965, green: 0.949, blue: 0.910)
+    static let paperDeep = Color(red: 0.902, green: 0.882, blue: 0.823)
+    static let card = Color(red: 0.992, green: 0.984, blue: 0.957)
+    static let ink = Color(red: 0.070, green: 0.094, blue: 0.102)
+    static let inkSoft = Color(red: 0.070, green: 0.094, blue: 0.102).opacity(0.64)
+    static let inkFaint = Color(red: 0.070, green: 0.094, blue: 0.102).opacity(0.25)
+    static let gold = Color(red: 0.680, green: 0.493, blue: 0.235)
+    static let goldBright = Color(red: 0.906, green: 0.741, blue: 0.435)
+    static let road = Color(red: 0.474, green: 0.253, blue: 0.180)
+    static let water = Color(red: 0.157, green: 0.290, blue: 0.322)
+    static let night = Color(red: 0.039, green: 0.071, blue: 0.078)
+    static let nightRaised = Color(red: 0.071, green: 0.112, blue: 0.120)
+    static let sage = Color(red: 0.343, green: 0.439, blue: 0.384)
 }
 
 extension Font {
-    static func parchTitle(_ size: CGFloat) -> Font { .custom("Georgia-Bold", size: size) }
-    static func parchSerif(_ size: CGFloat) -> Font { .custom("Georgia", size: size) }
-    static func parchItalic(_ size: CGFloat) -> Font { .custom("Georgia-Italic", size: size) }
+    static func parchTitle(_ size: CGFloat) -> Font { .system(size: size, weight: .semibold, design: .serif) }
+    static func parchSerif(_ size: CGFloat) -> Font { .system(size: size, weight: .regular, design: .serif) }
+    static func parchItalic(_ size: CGFloat) -> Font { .system(size: size, weight: .regular, design: .serif).italic() }
+    static func waySans(_ size: CGFloat, weight: Font.Weight = .regular) -> Font { .system(size: size, weight: weight, design: .rounded) }
 }
 
 struct ParchBackground: View {
     var body: some View {
         ZStack {
             Parch.paper
-            LinearGradient(colors: [Parch.card.opacity(0.9), Parch.paper, Parch.paperDeep.opacity(0.85)],
-                           startPoint: .top, endPoint: .bottom)
-            Canvas { ctx, size in
-                var seed: UInt64 = 4411
-                func rnd() -> Double {
-                    seed = seed &* 6364136223846793005 &+ 1442695040888963407
-                    return Double((seed >> 33) % 10000) / 10000.0
-                }
-                for _ in 0..<120 {
-                    let x = rnd() * size.width
-                    let y = rnd() * size.height
-                    let len = 4 + rnd() * 10
-                    let a = rnd() * .pi
-                    var p = Path()
-                    p.move(to: CGPoint(x: x, y: y))
-                    p.addLine(to: CGPoint(x: x + cos(a) * len, y: y + sin(a) * len))
-                    ctx.stroke(p, with: .color(Parch.ink.opacity(0.04 + rnd() * 0.04)), lineWidth: 0.8)
-                }
-            }
+            LinearGradient(colors: [Color.white.opacity(0.82), Parch.paper, Parch.paperDeep.opacity(0.52)],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+            RadialGradient(colors: [Parch.goldBright.opacity(0.12), .clear], center: .topTrailing, startRadius: 0, endRadius: 340)
         }
         .ignoresSafeArea()
+    }
+}
+
+struct WaySectionTitle: View {
+    let eyebrow: String
+    let title: String
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(eyebrow.uppercased())
+                .font(.waySans(11, weight: .bold))
+                .kerning(1.7)
+                .foregroundStyle(Parch.gold)
+                .lineLimit(1)
+                .minimumScaleFactor(0.78)
+            Text(title)
+                .font(.parchTitle(30))
+                .foregroundStyle(Parch.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.78)
+        }
+    }
+}
+
+struct WayPill: View {
+    let icon: String
+    let text: String
+    var dark = false
+    var body: some View {
+        Label(text, systemImage: icon)
+            .font(.waySans(11, weight: .semibold))
+            .foregroundStyle(dark ? Color.white.opacity(0.88) : Parch.inkSoft)
+            .padding(.horizontal, 11)
+            .padding(.vertical, 7)
+            .background(.ultraThinMaterial, in: Capsule())
+    }
+}
+
+struct WayCardModifier: ViewModifier {
+    var radius: CGFloat = 22
+    func body(content: Content) -> some View {
+        content
+            .background(Parch.card, in: RoundedRectangle(cornerRadius: radius, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).stroke(Color.white.opacity(0.9), lineWidth: 1))
+            .shadow(color: Parch.ink.opacity(0.09), radius: 18, y: 9)
+    }
+}
+
+extension View {
+    func wayCard(radius: CGFloat = 22) -> some View { modifier(WayCardModifier(radius: radius)) }
+    func wayResponsiveColumn(maxWidth: CGFloat, inset: CGFloat = 18) -> some View {
+        self
+            .frame(maxWidth: maxWidth)
+            .padding(.horizontal, inset)
+            .frame(maxWidth: .infinity)
     }
 }
 
@@ -237,9 +279,26 @@ enum WayArt {
         cached("Vignettes/v_\(journey)_\(index)", "v_\(journey)_\(index)", "Vignettes")
     }
 
-    private static func cached(_ key: String, _ name: String, _ dir: String) -> UIImage? {
+    static func hero(_ journey: String) -> UIImage? {
+        let asset: String
+        let ext: String
+        switch journey {
+        case "abraham": asset = "hero_abraham"; ext = "png"
+        case "exodus": asset = "hero_exodus"; ext = "png"
+        case "wilderness": asset = "hero_wilderness"; ext = "jpg"
+        case "conquest": asset = "hero_conquest"; ext = "png"
+        case "david": asset = "hero_david"; ext = "jpg"
+        case "exile": asset = "hero_exile"; ext = "jpg"
+        case "galilee": asset = "hero_galilee"; ext = "jpg"
+        case "paul": asset = "hero_paul"; ext = "png"
+        default: return nil
+        }
+        return cached("Maps/\(asset).\(ext)", asset, "Maps", ext: ext)
+    }
+
+    private static func cached(_ key: String, _ name: String, _ dir: String, ext: String = "jpg") -> UIImage? {
         if let c = mapCache.object(forKey: key as NSString) { return c }
-        guard let url = Bundle.main.url(forResource: name, withExtension: "jpg", subdirectory: dir),
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext, subdirectory: dir),
               let ui = UIImage(contentsOfFile: url.path) else { return nil }
         mapCache.setObject(ui, forKey: key as NSString)
         return ui

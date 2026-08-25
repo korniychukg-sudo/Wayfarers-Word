@@ -12,7 +12,7 @@ struct WayPaywallView: View {
         ZStack {
             ParchBackground()
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 18) {
+                LazyVStack(spacing: 18) {
                     HStack {
                         Spacer()
                         Button(action: onClose) {
@@ -25,18 +25,28 @@ struct WayPaywallView: View {
                     }
                     .padding(.top, 8)
 
-                    if let ui = WayArt.map("paul") {
+                    if let ui = WayArt.hero("paul") {
                         Image(uiImage: ui)
                             .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 14))
-                            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.gold.opacity(0.6), lineWidth: 1.4))
-                            .shadow(color: Parch.ink.opacity(0.18), radius: 10, y: 5)
+                            .scaledToFill()
+                            .frame(height: 250)
+                            .clipped()
+                            .overlay(alignment: .bottomLeading) {
+                                LinearGradient(colors: [.clear, Parch.night.opacity(0.88)], startPoint: .top, endPoint: .bottom)
+                                    .overlay(alignment: .bottomLeading) {
+                                        Label("THE COMPLETE ATLAS", systemImage: "map.fill")
+                                            .font(.waySans(11, weight: .bold)).kerning(1.4)
+                                            .foregroundStyle(Parch.goldBright).padding(18)
+                                    }
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                            .shadow(color: Parch.night.opacity(0.22), radius: 18, y: 9)
                     }
 
-                    Text("Open every road")
-                        .font(.parchTitle(26))
+                    Text("The whole world of the Word")
+                        .font(.parchTitle(29))
                         .foregroundColor(Parch.ink)
+                        .multilineTextAlignment(.center)
 
                     Text("Eight journeys, 79 waypoints, 7,780 miles of scripture walked place by place — from Ur of the Chaldees to the Appian Way into Rome.")
                         .font(.parchSerif(15))
@@ -45,9 +55,9 @@ struct WayPaywallView: View {
                         .padding(.horizontal, 8)
 
                     VStack(spacing: 10) {
-                        featureRow("All 8 journeys on hand-drawn maps")
+                        featureRow("All 8 journeys on interactive maps")
                         featureRow("79 waypoints with KJV readings")
-                        featureRow("Field-sketch art for every stop")
+                        featureRow("Cinematic historical scenes and rich reading")
                         featureRow("Map widgets that walk with you")
                     }
                     .padding(.vertical, 4)
@@ -93,8 +103,8 @@ struct WayPaywallView: View {
                         .foregroundColor(Parch.paper)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 15)
-                        .background(RoundedRectangle(cornerRadius: 13).fill(Parch.gold))
-                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Parch.goldBright, lineWidth: 1.4))
+                            .background(LinearGradient(colors: [Parch.sage, Parch.water], startPoint: .leading, endPoint: .trailing), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                            .shadow(color: Parch.water.opacity(0.24), radius: 14, y: 8)
                     }
                     .buttonStyle(.plain)
                     .disabled(shop.products.isEmpty || shop.purchasing)
@@ -130,7 +140,7 @@ struct WayPaywallView: View {
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 22)
+                .wayResponsiveColumn(maxWidth: 720, inset: 22)
             }
         }
         .task { await shop.loadProducts() }
@@ -197,9 +207,9 @@ struct WayPaywallView: View {
                     .frame(width: 22, height: 22)
                     .overlay(Circle().fill(Parch.gold).frame(width: 12, height: 12).opacity(isSelected ? 1 : 0))
             }
-            .padding(14)
-            .background(RoundedRectangle(cornerRadius: 13).fill(Parch.card))
-            .overlay(RoundedRectangle(cornerRadius: 13).stroke(isSelected ? Parch.gold : Parch.inkFaint.opacity(0.6), lineWidth: isSelected ? 1.8 : 1))
+            .padding(15)
+            .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(isSelected ? Parch.gold.opacity(0.1) : Parch.card))
+            .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(isSelected ? Parch.gold : Parch.inkFaint.opacity(0.4), lineWidth: isSelected ? 1.8 : 1))
         }
         .buttonStyle(.plain)
     }
@@ -219,7 +229,7 @@ struct WayPrivacyView: View {
         ZStack {
             ParchBackground()
             ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
+                LazyVStack(alignment: .leading, spacing: 14) {
                     Text("Privacy Policy")
                         .font(.parchTitle(24))
                         .foregroundColor(Parch.ink)
@@ -233,7 +243,8 @@ struct WayPrivacyView: View {
                     .font(.parchSerif(15))
                     .foregroundColor(Parch.inkSoft)
                 }
-                .padding(22)
+                .padding(.vertical, 22)
+                .wayResponsiveColumn(maxWidth: 760, inset: 22)
             }
         }
         .navigationTitle("")
@@ -244,100 +255,88 @@ struct WayPrivacyView: View {
 struct WayOnboardingView: View {
     @EnvironmentObject var store: WayStore
     @State private var page = 0
+    @State private var appeared = false
 
     var body: some View {
-        NavigationView {
-            ZStack(alignment: .topLeading) {
-                ParchBackground()
-                if page < 3 {
-                    VStack(spacing: 0) {
-                        TabView(selection: $page) {
-                            introPage(map: "abraham",
-                                      title: "Walk the Bible's\ngreat roads",
-                                      text: "Eight real journeys on hand-drawn maps — Abraham's road out of Ur, the Exodus, David on the run, Paul across the sea to Rome.")
-                                .tag(0)
-                            introPage(map: "exodus",
-                                      title: "Read your way\ndown the road",
-                                      text: "Every waypoint holds the King James passage that happened there, a field narration of the road itself, and honest miles between stops.")
-                                .tag(1)
-                            introPage(map: "galilee",
-                                      title: "Your caravan\nkeeps the miles",
-                                      text: "Reading moves your marker down the map. Miles add up in the logbook, streaks and awards follow, and widgets carry the road to your Home Screen.")
-                                .tag(2)
+        Group {
+            if page < 3 {
+                GeometryReader { geo in
+                    ZStack {
+                        Parch.night
+                        if let ui = WayArt.hero(onboardingMap) {
+                            Image(uiImage: ui)
+                                .resizable().scaledToFill()
+                                .frame(width: geo.size.width, height: geo.size.height)
+                                .clipped()
+                                .scaleEffect(appeared ? 1 : 1.06)
                         }
-                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        LinearGradient(colors: [Parch.night.opacity(0.08), .clear, Parch.night.opacity(0.96)], startPoint: .top, endPoint: .bottom)
 
-                        HStack(spacing: 8) {
-                            ForEach(0..<3, id: \.self) { k in
-                                Circle()
-                                    .fill(k == page ? Parch.gold : Parch.inkFaint)
-                                    .frame(width: 8, height: 8)
+                        VStack(spacing: 0) {
+                            if page > 0 {
+                                HStack {
+                                    Button { withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) { page -= 1 } } label: {
+                                        Image(systemName: "chevron.left")
+                                            .font(.system(size: 14, weight: .bold)).foregroundStyle(.white)
+                                            .frame(width: 42, height: 42).background(.ultraThinMaterial, in: Circle())
+                                    }
+                                    Spacer()
+                                }
                             }
+                            Spacer()
+                            VStack(spacing: 14) {
+                                Image(systemName: onboardingIcon)
+                                    .font(.system(size: 23, weight: .semibold)).foregroundStyle(Parch.goldBright)
+                                Text(onboardingTitle)
+                                    .font(.parchTitle(34)).foregroundStyle(.white)
+                                    .multilineTextAlignment(.center)
+                                Text(onboardingText)
+                                    .font(.waySans(14)).foregroundStyle(.white.opacity(0.76)).lineSpacing(4)
+                                    .multilineTextAlignment(.center)
+                                HStack(spacing: 8) {
+                                    ForEach(0..<3, id: \.self) { k in
+                                        Capsule().fill(k == page ? Parch.goldBright : Color.white.opacity(0.3))
+                                            .frame(width: k == page ? 22 : 8, height: 8)
+                                    }
+                                }
+                                .padding(.vertical, 5)
+                                Button {
+                                    withAnimation(.spring(response: 0.45, dampingFraction: 0.86)) { page += 1 }
+                                } label: {
+                                    HStack {
+                                        Text(page == 2 ? "Set out" : "Continue")
+                                        Spacer()
+                                        Image(systemName: "arrow.right")
+                                    }
+                                    .font(.waySans(16, weight: .bold)).foregroundStyle(.white)
+                                    .padding(18)
+                                    .background(LinearGradient(colors: [Parch.sage, Parch.water], startPoint: .leading, endPoint: .trailing), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .padding(.horizontal, 24)
+                            .frame(maxWidth: 680)
+                            .frame(maxWidth: .infinity)
+                            .padding(.bottom, max(geo.safeAreaInsets.bottom, 16) + 14)
                         }
-                        .padding(.bottom, 18)
-
-                        Button {
-                            withAnimation { page += 1 }
-                        } label: {
-                            Text(page == 2 ? "Set out" : "Continue")
-                                .font(.parchTitle(17))
-                                .foregroundColor(Parch.paper)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 15)
-                                .background(RoundedRectangle(cornerRadius: 13).fill(Parch.gold))
-                                .overlay(RoundedRectangle(cornerRadius: 13).stroke(Parch.goldBright, lineWidth: 1.4))
-                        }
-                        .buttonStyle(.plain)
-                        .padding(.horizontal, 24)
-                        .padding(.bottom, 30)
+                        .padding(.top, geo.safeAreaInsets.top + 10)
                     }
-                } else {
-                    WayPaywallView {
-                        store.completeOnboarding()
-                    }
+                    .frame(width: geo.size.width, height: geo.size.height)
                 }
-                if page > 0 && page < 3 {
-                    Button {
-                        withAnimation { page -= 1 }
-                    } label: {
-                        WayIcon(kind: "chevron", size: 15, color: Parch.inkSoft)
-                            .rotationEffect(.degrees(180))
-                            .padding(11)
-                            .background(Circle().fill(Parch.card))
-                            .overlay(Circle().stroke(Parch.inkFaint, lineWidth: 1))
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.leading, 20)
-                    .padding(.top, 8)
-                }
+                .ignoresSafeArea()
+            } else {
+                NavigationStack { WayPaywallView { store.completeOnboarding() } }
             }
-            .navigationBarHidden(true)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear { withAnimation(.easeOut(duration: 0.8)) { appeared = true } }
     }
 
-    private func introPage(map: String, title: String, text: String) -> some View {
-        VStack(spacing: 22) {
-            Spacer(minLength: 20)
-            if let ui = WayArt.map(map) {
-                Image(uiImage: ui)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Parch.gold.opacity(0.6), lineWidth: 1.4))
-                    .shadow(color: Parch.ink.opacity(0.2), radius: 12, y: 6)
-                    .padding(.horizontal, 26)
-            }
-            Text(title)
-                .font(.parchTitle(25))
-                .foregroundColor(Parch.ink)
-                .multilineTextAlignment(.center)
-            Text(text)
-                .font(.parchSerif(15))
-                .foregroundColor(Parch.inkSoft)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 34)
-            Spacer(minLength: 10)
-        }
+    private var onboardingMap: String { page == 0 ? "abraham" : page == 1 ? "exodus" : "galilee" }
+    private var onboardingIcon: String { page == 0 ? "map.fill" : page == 1 ? "book.pages.fill" : "figure.walk" }
+    private var onboardingTitle: String { page == 0 ? "Walk the Bible's\ngreat roads" : page == 1 ? "Read your way\ndown the road" : "Your caravan\nkeeps the miles" }
+    private var onboardingText: String {
+        if page == 0 { return "Eight real journeys — Abraham out of Ur, the Exodus, David on the run, and Paul across the sea to Rome." }
+        if page == 1 { return "Every place holds its passage, the history of the road, and the honest miles between stops." }
+        return "Reading moves your marker. Miles, streaks and field notes turn scripture into a journey you can see."
     }
 }

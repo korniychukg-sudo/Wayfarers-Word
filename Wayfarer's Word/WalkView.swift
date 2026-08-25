@@ -23,154 +23,42 @@ struct WaypointReader: View {
     @State private var celebrated = false
     @State private var noteDraft = ""
     @State private var showNoteSheet = false
+    @State private var appeared = false
 
     private var walkedHere: Bool { store.isWalked(journey.journey, index) }
     private var journeyFinished: Bool { store.journeyDone(journey.journey) }
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 18) {
-                HStack {
-                    Text(journey.title)
-                        .font(.parchSerif(12))
-                        .foregroundColor(Parch.road)
-                        .padding(.horizontal, 11)
-                        .padding(.vertical, 5)
-                        .background(Capsule().fill(Parch.road.opacity(0.1)))
-                        .overlay(Capsule().stroke(Parch.road.opacity(0.4), lineWidth: 1))
-                    Spacer()
-                    Text("Stop \(index + 1) of \(journey.waypoints.count)")
-                        .font(.parchSerif(13))
-                        .foregroundColor(Parch.inkSoft)
-                }
-                .padding(.top, 14)
-
-                CaravanStrip(progress: Double(store.walkedCount(journey.journey)) / Double(journey.waypoints.count))
-
-                if let ui = WayArt.vignette(journey.journey, index) {
-                    Image(uiImage: ui)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Parch.gold.opacity(0.55), lineWidth: 1.4))
-                        .shadow(color: Parch.ink.opacity(0.16), radius: 10, y: 5)
-                }
-
-                VStack(spacing: 6) {
-                    Text(waypoint.place)
-                        .font(.parchTitle(27))
-                        .foregroundColor(Parch.ink)
-                        .multilineTextAlignment(.center)
-                    Text(waypoint.placeNote)
-                        .font(.parchItalic(13))
-                        .foregroundColor(Parch.inkSoft)
-                        .multilineTextAlignment(.center)
-                    if waypoint.miles > 0 {
-                        Text("\(waypoint.miles) miles from the last camp")
-                            .font(.parchSerif(12))
-                            .foregroundColor(Parch.gold)
-                    }
-                }
-
-                RoadRule()
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("THE ROAD IN")
-                        .font(.parchTitle(11))
-                        .foregroundColor(Parch.gold)
-                        .kerning(1.6)
-                    HStack(alignment: .top, spacing: 10) {
-                        Text(String(waypoint.narration.prefix(1)))
-                            .font(.custom("Georgia-Bold", size: 52))
-                            .foregroundColor(Parch.gold)
-                            .padding(.top, -8)
-                            .overlay(Rectangle().fill(Parch.gold.opacity(0.35)).frame(width: 1.2).padding(.vertical, 2), alignment: .trailing)
-                            .padding(.trailing, 2)
-                        Text(String(waypoint.narration.dropFirst()))
-                            .font(.parchSerif(16))
-                            .foregroundColor(Parch.ink)
-                            .lineSpacing(5)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
-                .background(RoundedRectangle(cornerRadius: 14).fill(Parch.card))
-                .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.inkFaint.opacity(0.5), lineWidth: 1))
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(waypoint.reference.uppercased())
-                        .font(.parchTitle(11))
-                        .foregroundColor(Parch.gold)
-                        .kerning(1.6)
-                    ForEach(Array(waypoint.verses.enumerated()), id: \.offset) { pair in
-                        HStack(alignment: .top, spacing: 9) {
-                            Text("\(waypoint.verseStart + pair.offset)")
-                                .font(.parchTitle(11))
-                                .foregroundColor(Parch.gold.opacity(0.8))
-                                .frame(width: 22, alignment: .trailing)
-                                .padding(.top, 4)
-                            Text(pair.element)
-                                .font(.parchSerif(16.5))
-                                .foregroundColor(Parch.ink)
-                                .lineSpacing(5)
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
-                .background(RoundedRectangle(cornerRadius: 14).fill(Parch.card))
-                .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.gold.opacity(0.4), lineWidth: 1.2))
-
-                JourneyMapView(journey: journey, walkedCount: max(store.walkedCount(journey.journey), 1))
-
-                if walkedHere {
-                    fieldNoteCard
-                    if journeyFinished && isCurrent {
-                        VStack(spacing: 8) {
-                            HStack(spacing: 8) {
-                                WayIcon(kind: "check", size: 16, color: Parch.gold)
-                                Text("\(journey.title) is walked")
-                                    .font(.parchTitle(15))
-                                    .foregroundColor(Parch.gold)
-                            }
-                            Text("Choose the next road in the Atlas.")
-                                .font(.parchSerif(13))
-                                .foregroundColor(Parch.inkSoft)
-                        }
-                        .padding(.vertical, 12)
+            LazyVStack(spacing: 0) {
+                hero
+                VStack(spacing: 20) {
+                    progressCard
+                    storyCard
+                    scriptureCard
+                    JourneyMapView(journey: journey, walkedCount: max(store.walkedCount(journey.journey), 1))
+                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                        .shadow(color: Parch.ink.opacity(0.12), radius: 16, y: 8)
+                    if walkedHere {
+                        fieldNoteCard
+                        Label(journeyFinished && isCurrent ? "Journey complete — choose a new road in Atlas" : "Today's passage completed", systemImage: "checkmark.seal.fill")
+                            .font(.waySans(14, weight: .semibold))
+                            .foregroundStyle(Parch.sage)
+                            .multilineTextAlignment(.center)
+                            .padding(.vertical, 8)
                     } else {
-                        HStack(spacing: 8) {
-                            WayIcon(kind: "check", size: 16, color: Parch.gold)
-                            Text("Walked")
-                                .font(.parchTitle(15))
-                                .foregroundColor(Parch.gold)
-                        }
-                        .padding(.vertical, 12)
+                        completeButton
                     }
-                } else {
-                    Button {
-                        withAnimation(.spring(duration: 0.5)) {
-                            store.markWalked(journey.journey, index)
-                            celebrated = true
-                        }
-                        let gen = UINotificationFeedbackGenerator()
-                        gen.notificationOccurred(.success)
-                    } label: {
-                        Text("Walk this stretch")
-                            .font(.parchTitle(16))
-                            .foregroundColor(Parch.paper)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 15)
-                            .background(RoundedRectangle(cornerRadius: 13).fill(Parch.gold))
-                            .overlay(RoundedRectangle(cornerRadius: 13).stroke(Parch.goldBright, lineWidth: 1.4))
-                    }
-                    .buttonStyle(.plain)
+                    Color.clear.frame(height: 96)
                 }
-
-                Color.clear.frame(height: 22)
+                .padding(.top, 20)
+                .wayResponsiveColumn(maxWidth: 760)
+                .background(ParchBackground())
             }
-            .padding(.horizontal, 18)
         }
+        .background(Parch.night)
+        .ignoresSafeArea(edges: .top)
+        .onAppear { withAnimation(.easeOut(duration: 0.7)) { appeared = true } }
         .overlay {
             if celebrated {
                 WayConfetti()
@@ -192,6 +80,145 @@ struct WaypointReader: View {
         }
     }
 
+    private var hero: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottomLeading) {
+                if let ui = WayArt.hero(journey.journey) {
+                    Image(uiImage: ui)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: 455)
+                        .clipped()
+                        .scaleEffect(appeared ? 1 : 1.08)
+                }
+                LinearGradient(colors: [.clear, Parch.night.opacity(0.18), Parch.night.opacity(0.96)], startPoint: .top, endPoint: .bottom)
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        WayPill(icon: "figure.walk", text: "STOP \(index + 1) OF \(journey.waypoints.count)", dark: true)
+                        Spacer()
+                        WayPill(icon: "flame.fill", text: "\(store.streak) DAY STREAK", dark: true)
+                    }
+                    Text("TODAY'S JOURNEY")
+                        .font(.waySans(11, weight: .bold)).kerning(2)
+                        .foregroundStyle(Parch.goldBright)
+                    Text(waypoint.place)
+                        .font(.parchTitle(38))
+                        .foregroundStyle(.white)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.72)
+                    Text(waypoint.placeNote)
+                        .font(.parchItalic(15))
+                        .foregroundStyle(.white.opacity(0.76))
+                        .lineLimit(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                    HStack(spacing: 12) {
+                        Label(waypoint.reference, systemImage: "book.closed")
+                        if waypoint.miles > 0 { Label("\(waypoint.miles) miles", systemImage: "point.topleft.down.to.point.bottomright.curvepath") }
+                    }
+                    .font(.waySans(12, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.84))
+                }
+                .frame(maxWidth: 760, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 28)
+                .opacity(appeared ? 1 : 0)
+                .offset(y: appeared ? 0 : 14)
+            }
+            .frame(width: geometry.size.width, height: 455)
+        }
+        .frame(height: 455)
+    }
+
+    private var progressCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(journey.title).font(.waySans(14, weight: .bold)).foregroundStyle(Parch.ink)
+                    Text("Your path through this journey").font(.waySans(12)).foregroundStyle(Parch.inkSoft)
+                }
+                Spacer()
+                Text("\(Int(Double(store.walkedCount(journey.journey)) / Double(journey.waypoints.count) * 100))%")
+                    .font(.waySans(19, weight: .bold)).foregroundStyle(Parch.gold)
+            }
+            ProgressView(value: Double(store.walkedCount(journey.journey)), total: Double(journey.waypoints.count))
+                .tint(Parch.gold)
+                .scaleEffect(x: 1, y: 1.5)
+            HStack {
+                Label("\(store.walkedCount(journey.journey)) completed", systemImage: "checkmark.circle")
+                Spacer()
+                Text("\(journey.waypoints.count - store.walkedCount(journey.journey)) ahead")
+            }
+            .font(.waySans(11, weight: .medium)).foregroundStyle(Parch.inkSoft)
+        }
+        .padding(17)
+        .wayCard()
+    }
+
+    private var storyCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("THE ROAD INTO \(waypoint.place.uppercased())", systemImage: "wind")
+                .font(.waySans(11, weight: .bold)).kerning(1.2).foregroundStyle(Parch.gold)
+            Text(waypoint.narration)
+                .font(.parchSerif(17)).foregroundStyle(Parch.ink).lineSpacing(6)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(19)
+        .wayCard()
+    }
+
+    private var scriptureCard: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            HStack {
+                Label(waypoint.reference.uppercased(), systemImage: "text.book.closed.fill")
+                    .font(.waySans(11, weight: .bold)).kerning(1.2).foregroundStyle(Parch.gold)
+                Spacer()
+                Image(systemName: "quote.opening").foregroundStyle(Parch.gold.opacity(0.45))
+            }
+            ForEach(Array(waypoint.verses.enumerated()), id: \.offset) { pair in
+                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                    Text("\(waypoint.verseStart + pair.offset)")
+                        .font(.waySans(10, weight: .bold)).foregroundStyle(Parch.gold)
+                        .frame(width: 20, alignment: .trailing)
+                    Text(pair.element)
+                        .font(.parchSerif(17)).foregroundStyle(Color.white.opacity(0.9)).lineSpacing(6)
+                }
+            }
+        }
+        .padding(19)
+        .background(
+            LinearGradient(colors: [Parch.nightRaised, Parch.night], startPoint: .topLeading, endPoint: .bottomTrailing),
+            in: RoundedRectangle(cornerRadius: 24, style: .continuous)
+        )
+        .environment(\.colorScheme, .dark)
+        .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).stroke(Parch.gold.opacity(0.28), lineWidth: 1))
+        .shadow(color: Parch.night.opacity(0.22), radius: 18, y: 9)
+    }
+
+    private var completeButton: some View {
+        Button {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.72)) {
+                store.markWalked(journey.journey, index)
+                celebrated = true
+            }
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Complete today's passage").font(.waySans(16, weight: .bold))
+                    Text("Move your marker to the next stop").font(.waySans(11)).opacity(0.72)
+                }
+                Spacer()
+                Image(systemName: "arrow.right").font(.system(size: 16, weight: .bold))
+            }
+            .foregroundStyle(.white)
+            .padding(18)
+            .background(LinearGradient(colors: [Parch.sage, Parch.water], startPoint: .leading, endPoint: .trailing), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .shadow(color: Parch.water.opacity(0.28), radius: 16, y: 9)
+        }
+        .buttonStyle(.plain)
+    }
+
     private var fieldNoteCard: some View {
         Button {
             noteDraft = store.fieldNote(for: store.token(journey.journey, index)) ?? ""
@@ -204,7 +231,7 @@ struct WaypointReader: View {
                         .foregroundColor(Parch.road)
                         .kerning(1.6)
                     Spacer()
-                    WayIcon(kind: "book", size: 15, color: Parch.road.opacity(0.8))
+                    Image(systemName: "square.and.pencil").foregroundStyle(Parch.road)
                 }
                 if let note = store.fieldNote(for: store.token(journey.journey, index)) {
                     Text(note)
@@ -220,9 +247,8 @@ struct WaypointReader: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(15)
-            .background(RoundedRectangle(cornerRadius: 14).fill(Parch.road.opacity(0.05)))
-            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.road.opacity(0.35), lineWidth: 1.1))
+            .padding(17)
+            .wayCard()
         }
         .buttonStyle(.plain)
     }

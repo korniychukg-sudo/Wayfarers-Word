@@ -7,24 +7,38 @@ struct AtlasView: View {
     var body: some View {
         ZStack {
             ParchBackground()
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Atlas")
-                            .font(.parchTitle(30))
-                            .foregroundColor(Parch.ink)
-                        Text("\(store.milesWalked) of \(store.totalMiles) miles walked")
-                            .font(.parchSerif(14))
-                            .foregroundColor(Parch.inkSoft)
+            GeometryReader { proxy in
+                let columnWidth = min(760, max(0, proxy.size.width - 36))
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(alignment: .leading, spacing: 20) {
+                    ViewThatFits(in: .horizontal) {
+                        HStack(alignment: .bottom, spacing: 16) {
+                            WaySectionTitle(eyebrow: "Explore the world", title: "Journey Atlas")
+                                .layoutPriority(1)
+                            Spacer(minLength: 8)
+                            journeyMetric
+                        }
+                        VStack(alignment: .leading, spacing: 12) {
+                            WaySectionTitle(eyebrow: "Explore the world", title: "Journey Atlas")
+                            journeyMetric
+                        }
                     }
-                    .padding(.top, 12)
+                    .padding(.top, 16)
+
+                    HStack(spacing: 8) {
+                        WayPill(icon: "map.fill", text: "8 JOURNEYS")
+                        WayPill(icon: "mappin.and.ellipse", text: "79 PLACES")
+                        WayPill(icon: "clock.fill", text: "OFFLINE")
+                    }
 
                     ForEach(store.content.journeys) { journey in
-                        journeyCard(journey)
+                        journeyCard(journey, width: columnWidth)
                     }
                     Color.clear.frame(height: 22)
+                    }
+                    .frame(width: columnWidth)
+                    .frame(width: proxy.size.width)
                 }
-                .padding(.horizontal, 18)
             }
         }
         .navigationBarHidden(true)
@@ -37,7 +51,7 @@ struct AtlasView: View {
     }
 
     @ViewBuilder
-    private func journeyCard(_ journey: WWJourney) -> some View {
+    private func journeyCard(_ journey: WWJourney, width: CGFloat) -> some View {
         let unlocked = store.isUnlocked(journey.journey)
         let walked = store.walkedCount(journey.journey)
         let done = walked == journey.waypoints.count
@@ -45,95 +59,83 @@ struct AtlasView: View {
             NavigationLink {
                 JourneyDetailView(journey: journey)
             } label: {
-                cardBody(journey, walked: walked, done: done, locked: false)
+                cardBody(journey, walked: walked, done: done, locked: false, width: width)
             }
             .buttonStyle(.plain)
+            .frame(width: width)
         } else {
             Button {
                 showPaywall = true
             } label: {
-                cardBody(journey, walked: walked, done: done, locked: true)
+                cardBody(journey, walked: walked, done: done, locked: true, width: width)
             }
             .buttonStyle(.plain)
+            .frame(width: width)
         }
     }
 
-    private func cardBody(_ journey: WWJourney, walked: Int, done: Bool, locked: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ZStack {
-                if let ui = WayArt.map(journey.journey) {
+    private func cardBody(_ journey: WWJourney, walked: Int, done: Bool, locked: Bool, width: CGFloat) -> some View {
+        ZStack(alignment: .bottomLeading) {
+            if let ui = WayArt.hero(journey.journey) {
                     Image(uiImage: ui)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 150)
+                        .frame(width: width, height: 290)
                         .clipped()
-                        .saturation(locked ? 0.4 : 1)
-                        .opacity(locked ? 0.6 : 1)
-                }
-                if locked {
-                    VStack(spacing: 6) {
-                        WayIcon(kind: "lock", size: 30, color: Parch.gold)
-                        Text("Unlock every road")
-                            .font(.parchTitle(13))
-                            .foregroundColor(Parch.ink)
-                    }
-                    .padding(14)
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Parch.card.opacity(0.92)))
-                }
-                if done {
-                    VStack(spacing: 2) {
-                        Text("ROAD WALKED")
-                            .font(.parchTitle(17))
-                            .foregroundColor(Parch.road)
-                            .kerning(2)
-                        Text("\(journey.totalMiles) MILES")
-                            .font(.parchTitle(9))
-                            .foregroundColor(Parch.road.opacity(0.85))
-                            .kerning(1.4)
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(RoundedRectangle(cornerRadius: 6).fill(Parch.paper.opacity(0.55)))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Parch.road, lineWidth: 2.6))
-                    .overlay(RoundedRectangle(cornerRadius: 9).stroke(Parch.road.opacity(0.5), lineWidth: 1.2).padding(-4))
-                    .rotationEffect(.degrees(-9))
-                }
+                        .saturation(locked ? 0.55 : 1)
             }
-            VStack(alignment: .leading, spacing: 5) {
+            LinearGradient(colors: [.clear, Parch.night.opacity(0.2), Parch.night.opacity(0.95)], startPoint: .top, endPoint: .bottom)
+                .frame(width: width, height: 290)
+            VStack(alignment: .leading, spacing: 9) {
                 HStack {
-                    Text(journey.title)
-                        .font(.parchTitle(17))
-                        .foregroundColor(Parch.ink)
+                    if done { WayPill(icon: "checkmark.seal.fill", text: "COMPLETED", dark: true) }
+                    else if locked { WayPill(icon: "lock.fill", text: "WAYFARER PLUS", dark: true) }
+                    else { WayPill(icon: "figure.walk", text: "YOUR FIRST ROAD", dark: true) }
                     Spacer()
-                    if done {
-                        WayIcon(kind: "check", size: 15, color: Parch.gold)
-                    }
-                    Text("\(walked)/\(journey.waypoints.count)")
-                        .font(.parchSerif(13))
-                        .foregroundColor(done ? Parch.gold : Parch.inkSoft)
+                    Image(systemName: locked ? "lock.fill" : "arrow.up.right")
+                        .font(.system(size: 13, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 34, height: 34).background(.ultraThinMaterial, in: Circle())
                 }
+                Text(journey.title)
+                    .font(.parchTitle(25))
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.76)
                 Text(journey.subtitle)
                     .font(.parchItalic(13))
-                    .foregroundColor(Parch.inkSoft)
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Parch.inkFaint.opacity(0.35)).frame(height: 4)
-                    GeometryReader { geo in
-                        Capsule()
-                            .fill(Parch.gold)
-                            .frame(width: geo.size.width * CGFloat(Double(walked) / Double(journey.waypoints.count)), height: 4)
-                    }
-                    .frame(height: 4)
+                    .foregroundStyle(.white.opacity(0.72))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                HStack {
+                    Label("\(journey.totalMiles) mi", systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                    Label("\(journey.waypoints.count) stops", systemImage: "mappin.and.ellipse")
+                    Spacer()
+                    Text("\(walked)/\(journey.waypoints.count)")
                 }
-                Text("\(journey.totalMiles) miles · \(journey.waypoints.count) waypoints")
-                    .font(.parchSerif(11.5))
-                    .foregroundColor(Parch.inkFaint)
+                .font(.waySans(11, weight: .semibold)).foregroundStyle(.white.opacity(0.78))
+                ProgressView(value: Double(walked), total: Double(journey.waypoints.count)).tint(Parch.goldBright)
             }
-            .padding(13)
+            .frame(width: max(0, width - 36), alignment: .leading)
+            .padding(18)
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Parch.card))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        .overlay(RoundedRectangle(cornerRadius: 15).stroke(Parch.inkFaint.opacity(0.5), lineWidth: 1))
+        .frame(width: width, height: 290)
+        .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).stroke(Color.white.opacity(0.7), lineWidth: 1))
+        .shadow(color: Parch.night.opacity(0.18), radius: 20, y: 10)
+    }
+
+    private var journeyMetric: some View {
+        VStack(alignment: .trailing, spacing: 2) {
+            Text("\(store.milesWalked)")
+                .font(.waySans(22, weight: .bold))
+                .foregroundStyle(Parch.gold)
+                .lineLimit(1)
+            Text("of \(store.totalMiles) miles")
+                .font(.waySans(10, weight: .medium))
+                .foregroundStyle(Parch.inkSoft)
+                .lineLimit(1)
+        }
+        .fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -147,7 +149,7 @@ struct JourneyDetailView: View {
         ZStack {
             ParchBackground()
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 16) {
+                LazyVStack(alignment: .leading, spacing: 16) {
                     Text(journey.title)
                         .font(.parchTitle(26))
                         .foregroundColor(Parch.ink)
@@ -239,7 +241,7 @@ struct JourneyDetailView: View {
 
                     Color.clear.frame(height: 22)
                 }
-                .padding(.horizontal, 18)
+                .wayResponsiveColumn(maxWidth: 820)
             }
         }
         .navigationTitle("")

@@ -39,7 +39,12 @@ final class WayStore: ObservableObject {
 
     let content = WayContent.shared
 
-    private init() { load() }
+    private init() {
+        load()
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-skipOnboarding") { onboarded = true }
+#endif
+    }
 
     func token(_ journey: String, _ index: Int) -> String { "\(journey):\(index)" }
 

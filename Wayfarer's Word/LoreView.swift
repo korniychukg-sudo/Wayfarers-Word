@@ -77,59 +77,62 @@ struct LoreView: View {
         ZStack {
             ParchBackground()
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 18) {
-                    Text("Lore")
-                        .font(.parchTitle(30))
-                        .foregroundColor(Parch.ink)
-                        .padding(.top, 12)
+                LazyVStack(alignment: .leading, spacing: 22) {
+                    WaySectionTitle(eyebrow: "Learn as you travel", title: "Discover")
+                        .padding(.top, 16)
 
                     NavigationLink {
                         WayQuizView()
                     } label: {
-                        HStack(spacing: 12) {
-                            WayIcon(kind: "star", size: 26, color: Parch.gold)
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text("Road Quiz")
-                                    .font(.parchTitle(17))
-                                    .foregroundColor(Parch.ink)
-                                Text(store.quizBest > 0 ? "Ten questions from the roads you have walked. Best: \(store.quizBest)/10" : "Ten questions drawn from the roads you have walked")
-                                    .font(.parchSerif(13))
-                                    .foregroundColor(Parch.inkSoft)
+                        ZStack(alignment: .bottomLeading) {
+                            if let ui = WayArt.hero("paul") {
+                                Image(uiImage: ui).resizable().scaledToFill().frame(height: 210).clipped()
                             }
-                            Spacer()
-                            WayIcon(kind: "chevron", size: 14, color: Parch.inkFaint)
+                            LinearGradient(colors: [.clear, Parch.night.opacity(0.95)], startPoint: .top, endPoint: .bottom)
+                            VStack(alignment: .leading, spacing: 7) {
+                                HStack {
+                                    WayPill(icon: "sparkles", text: "INTERACTIVE", dark: true)
+                                    Spacer()
+                                    Image(systemName: "arrow.right.circle.fill").font(.title2).foregroundStyle(.white)
+                                }
+                                Text("How well do you know the road?").font(.parchTitle(22)).foregroundStyle(.white)
+                                Text(store.quizBest > 0 ? "Ten questions · best score \(store.quizBest)/10" : "Ten questions from the places you've explored")
+                                    .font(.waySans(12)).foregroundStyle(.white.opacity(0.72))
+                            }
+                            .padding(17)
                         }
-                        .padding(15)
-                        .background(RoundedRectangle(cornerRadius: 14).fill(Parch.gold.opacity(0.09)))
-                        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.gold.opacity(0.5), lineWidth: 1.2))
+                        .frame(height: 210)
+                        .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                        .shadow(color: Parch.night.opacity(0.18), radius: 18, y: 9)
                     }
                     .buttonStyle(.plain)
 
-                    Text("THE EIGHT ROADS")
-                        .font(.parchTitle(11))
-                        .foregroundColor(Parch.gold)
-                        .kerning(1.6)
+                    Text("THE EIGHT JOURNEYS")
+                        .font(.waySans(11, weight: .bold)).foregroundStyle(Parch.gold).kerning(1.6)
 
-                    ForEach(store.content.journeys) { journey in
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(journey.title)
-                                .font(.parchTitle(15.5))
-                                .foregroundColor(Parch.road)
-                            Text(journey.essay)
-                                .font(.parchSerif(14))
-                                .foregroundColor(Parch.inkSoft)
-                                .lineSpacing(4)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 13) {
+                            ForEach(store.content.journeys) { journey in
+                                ZStack(alignment: .bottomLeading) {
+                                    if let ui = WayArt.hero(journey.journey) {
+                                        Image(uiImage: ui).resizable().scaledToFill().frame(width: 230, height: 170).clipped()
+                                    }
+                                    LinearGradient(colors: [.clear, Parch.night.opacity(0.9)], startPoint: .top, endPoint: .bottom)
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text(journey.title).font(.parchTitle(17)).foregroundStyle(.white)
+                                        Text("\(journey.waypoints.count) places · \(journey.totalMiles) mi")
+                                            .font(.waySans(10, weight: .medium)).foregroundStyle(.white.opacity(0.72))
+                                    }.padding(14)
+                                }
+                                .frame(width: 230, height: 170)
+                                .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                            }
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(14)
-                        .background(RoundedRectangle(cornerRadius: 13).fill(Parch.card))
-                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Parch.inkFaint.opacity(0.45), lineWidth: 1))
                     }
+                    .contentMargins(.horizontal, 18, for: .scrollContent)
 
-                    Text("A WALKER'S GLOSSARY")
-                        .font(.parchTitle(11))
-                        .foregroundColor(Parch.gold)
-                        .kerning(1.6)
+                    Text("FIELD GLOSSARY")
+                        .font(.waySans(11, weight: .bold)).foregroundStyle(Parch.gold).kerning(1.6)
                         .padding(.top, 6)
 
                     ForEach(WayGlossary.terms) { term in
@@ -143,12 +146,12 @@ struct LoreView: View {
                                 .lineSpacing(3)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(13)
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Parch.card))
+                        .padding(16)
+                        .wayCard(radius: 18)
                     }
-                    Color.clear.frame(height: 22)
+                    Color.clear.frame(height: 96)
                 }
-                .padding(.horizontal, 18)
+                .wayResponsiveColumn(maxWidth: 900)
             }
         }
         .navigationBarHidden(true)
@@ -188,7 +191,7 @@ struct WayQuizView: View {
 
     private func questionView(_ q: WayQuizQuestion) -> some View {
         ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 16) {
+            LazyVStack(alignment: .leading, spacing: 16) {
                 HStack {
                     Text("Question \(index + 1) of \(questions.count)")
                         .font(.parchSerif(13))
@@ -257,7 +260,7 @@ struct WayQuizView: View {
                 }
                 Color.clear.frame(height: 20)
             }
-            .padding(.horizontal, 18)
+            .wayResponsiveColumn(maxWidth: 720)
         }
     }
 

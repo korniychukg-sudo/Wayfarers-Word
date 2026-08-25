@@ -10,16 +10,14 @@ struct LogbookView: View {
         ZStack {
             ParchBackground()
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 18) {
-                    Text("Logbook")
-                        .font(.parchTitle(30))
-                        .foregroundColor(Parch.ink)
-                        .padding(.top, 12)
+                LazyVStack(alignment: .leading, spacing: 18) {
+                    WaySectionTitle(eyebrow: "Your journey in numbers", title: "Travel Journal")
+                        .padding(.top, 16)
 
                     HStack(spacing: 14) {
                         ZStack {
                             Circle()
-                                .stroke(Parch.inkFaint.opacity(0.4), lineWidth: 9)
+                                .stroke(Color.white.opacity(0.12), lineWidth: 9)
                             Circle()
                                 .trim(from: 0, to: CGFloat(store.milesWalked) / CGFloat(max(store.totalMiles, 1)))
                                 .stroke(Parch.gold, style: StrokeStyle(lineWidth: 9, lineCap: .round))
@@ -27,10 +25,10 @@ struct LogbookView: View {
                             VStack(spacing: 2) {
                                 Text("\(store.milesWalked)")
                                     .font(.parchTitle(24))
-                                    .foregroundColor(Parch.ink)
+                                    .foregroundColor(.white)
                                 Text("miles")
                                     .font(.parchSerif(11))
-                                    .foregroundColor(Parch.inkSoft)
+                                    .foregroundColor(.white.opacity(0.62))
                             }
                         }
                         .frame(width: 108, height: 108)
@@ -42,9 +40,10 @@ struct LogbookView: View {
                         }
                         Spacer()
                     }
-                    .padding(16)
-                    .background(RoundedRectangle(cornerRadius: 14).fill(Parch.card))
-                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.inkFaint.opacity(0.5), lineWidth: 1))
+                    .padding(18)
+                    .background(LinearGradient(colors: [Parch.nightRaised, Parch.night], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 26, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).stroke(Parch.gold.opacity(0.24), lineWidth: 1))
+                    .shadow(color: Parch.night.opacity(0.2), radius: 18, y: 9)
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("WALKING DAYS")
@@ -64,9 +63,8 @@ struct LogbookView: View {
                             }
                         }
                     }
-                    .padding(16)
-                    .background(RoundedRectangle(cornerRadius: 14).fill(Parch.card))
-                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Parch.inkFaint.opacity(0.5), lineWidth: 1))
+                    .padding(18)
+                    .wayCard()
 
                     if !store.notedWaypoints.isEmpty {
                         Text("FIELD NOTES")
@@ -115,7 +113,9 @@ struct LogbookView: View {
                                     Circle()
                                         .stroke(has ? Parch.gold : Parch.inkFaint, lineWidth: 1.6)
                                         .frame(width: 46, height: 46)
-                                    WayIcon(kind: has ? "compass" : "lock", size: 20, color: has ? Parch.gold : Parch.inkFaint)
+                                    Image(systemName: has ? "seal.fill" : "lock.fill")
+                                        .font(.system(size: 18, weight: .semibold))
+                                        .foregroundStyle(has ? Parch.gold : Parch.inkFaint)
                                 }
                                 Text(badge.title)
                                     .font(.parchTitle(11.5))
@@ -129,7 +129,7 @@ struct LogbookView: View {
                             .padding(.vertical, 10)
                             .padding(.horizontal, 4)
                             .frame(maxWidth: .infinity)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Parch.card))
+                            .wayCard(radius: 16)
                         }
                     }
 
@@ -170,12 +170,12 @@ struct LogbookView: View {
                             .foregroundColor(Parch.gold)
                     }
 
-                    Text("Wayfarer's Word 1.0 — the Bible walked place by place. King James text, public domain. Everything you do here stays on this device.")
+                    Text("Wayfarer's Word 1 — scripture experienced place by place. King James text, public domain. Everything you do here stays on this device.")
                         .font(.parchSerif(12))
                         .foregroundColor(Parch.inkFaint)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 100)
                 }
-                .padding(.horizontal, 18)
+                .wayResponsiveColumn(maxWidth: 820)
             }
         }
         .navigationBarHidden(true)
@@ -201,17 +201,20 @@ struct LogbookView: View {
         HStack {
             Text(label)
                 .font(.parchSerif(13.5))
-                .foregroundColor(Parch.inkSoft)
+                .foregroundColor(.white.opacity(0.68))
             Spacer()
             Text(value)
                 .font(.parchTitle(14))
-                .foregroundColor(Parch.ink)
+                .foregroundColor(.white)
         }
     }
 
     private func settingBody(icon: String, label: String, detail: String?) -> some View {
         HStack(spacing: 12) {
-            WayIcon(kind: icon, size: 20, color: Parch.gold)
+            Image(systemName: icon == "star" ? "sparkles" : icon == "restore" ? "arrow.clockwise" : icon == "cross" ? "trash" : "hand.raised.fill")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(icon == "cross" ? Parch.road : Parch.gold)
+                .frame(width: 22)
             VStack(alignment: .leading, spacing: 2) {
                 Text(label)
                     .font(.parchTitle(14.5))
@@ -223,7 +226,9 @@ struct LogbookView: View {
                 }
             }
             Spacer()
-            WayIcon(kind: "chevron", size: 13, color: Parch.inkFaint)
+            Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .bold))
+                .foregroundStyle(Parch.inkFaint)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
