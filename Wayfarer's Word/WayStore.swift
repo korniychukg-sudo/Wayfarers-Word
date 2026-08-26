@@ -43,6 +43,7 @@ final class WayStore: ObservableObject {
         load()
 #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-skipOnboarding") { onboarded = true }
+        if ProcessInfo.processInfo.arguments.contains("-showOnboarding") { onboarded = false }
 #endif
     }
 

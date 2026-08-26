@@ -290,6 +290,9 @@ struct WayOnboardingView: View {
                                 Text(onboardingTitle)
                                     .font(.parchTitle(34)).foregroundStyle(.white)
                                     .multilineTextAlignment(.center)
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.74)
+                                    .fixedSize(horizontal: false, vertical: true)
                                 Text(onboardingText)
                                     .font(.waySans(14)).foregroundStyle(.white.opacity(0.76)).lineSpacing(4)
                                     .multilineTextAlignment(.center)
@@ -331,12 +334,12 @@ struct WayOnboardingView: View {
         .onAppear { withAnimation(.easeOut(duration: 0.8)) { appeared = true } }
     }
 
-    private var onboardingMap: String { page == 0 ? "abraham" : page == 1 ? "exodus" : "galilee" }
-    private var onboardingIcon: String { page == 0 ? "map.fill" : page == 1 ? "book.pages.fill" : "figure.walk" }
-    private var onboardingTitle: String { page == 0 ? "Walk the Bible's\ngreat roads" : page == 1 ? "Read your way\ndown the road" : "Your caravan\nkeeps the miles" }
+    private var onboardingMap: String { page == 0 ? "conquest" : page == 1 ? "galilee" : "exodus" }
+    private var onboardingIcon: String { page == 0 ? "square.grid.2x2.fill" : page == 1 ? "book.pages.fill" : "map.fill" }
+    private var onboardingTitle: String { page == 0 ? "Scripture, right on\nyour Home Screen" : page == 1 ? "The complete Bible,\nalways with you" : "See the world\nbehind the Word" }
     private var onboardingText: String {
-        if page == 0 { return "Eight real journeys — Abraham out of Ur, the Exodus, David on the run, and Paul across the sea to Rome." }
-        if page == 1 { return "Every place holds its passage, the history of the road, and the honest miles between stops." }
-        return "Reading moves your marker. Miles, streaks and field notes turn scripture into a journey you can see."
+        if page == 0 { return "Create beautiful daily Bible widgets for every Home and Lock Screen. Choose a topic, theme, type style or pin a favorite verse." }
+        if page == 1 { return "Read all 66 books and 31,102 verses offline. A tap on your widget opens the full chapter instantly." }
+        return "Journey Atlas is your optional companion: eight richly illustrated routes place Scripture in its roads, cities and landscapes."
     }
 }

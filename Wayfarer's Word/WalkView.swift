@@ -3,6 +3,175 @@ import SwiftUI
 struct WalkView: View {
     @EnvironmentObject var store: WayStore
 
+    private var widgetSettings: ScriptureWidgetSettings { ScriptureWidgetSettings.load() }
+    private var dailyVerse: ScriptureVerse { widgetSettings.selectedVerse() }
+
+    var body: some View {
+        ZStack {
+            ParchBackground()
+            ScrollView(showsIndicators: false) {
+                LazyVStack(alignment: .leading, spacing: 22) {
+                    header
+                    dailyVerseCard
+                    dailyRhythm
+                    widgetSection
+                    readingSection
+                    journeySection
+                    Color.clear.frame(height: 86)
+                }
+                .wayResponsiveColumn(maxWidth: 900)
+            }
+        }
+        .navigationBarHidden(true)
+    }
+
+    private var header: some View {
+        HStack(alignment: .center, spacing: 14) {
+            VStack(alignment: .leading, spacing: 5) {
+                Text("YOUR DAILY WORD").font(.waySans(11, weight: .bold)).kerning(1.8).foregroundStyle(Parch.gold)
+                Text("Good morning").font(.parchTitle(32)).foregroundStyle(Parch.ink).lineLimit(1).minimumScaleFactor(0.78)
+                Text("A quiet moment in Scripture, made for today.").font(.parchItalic(14)).foregroundStyle(Parch.inkSoft)
+            }
+            Spacer(minLength: 8)
+            ZStack {
+                Circle().fill(Parch.night)
+                Image(systemName: "cross.fill").font(.system(size: 19, weight: .bold)).foregroundStyle(Parch.goldBright)
+            }.frame(width: 52, height: 52).shadow(color: Parch.night.opacity(0.2), radius: 12, y: 6)
+        }.padding(.top, 16)
+    }
+
+    private var dailyVerseCard: some View {
+        Group {
+            if let target = bibleTarget(dailyVerse) {
+                NavigationLink { BibleChapterReader(book: target.0, chapter: target.1) } label: { dailyVerseCardContent }.buttonStyle(.plain)
+            } else { dailyVerseCardContent }
+        }
+    }
+
+    private var dailyVerseCardContent: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottomLeading) {
+                if let image = WayArt.hero("abraham") {
+                    Image(uiImage: image).resizable().scaledToFill().frame(width: geometry.size.width, height: 330).clipped()
+                }
+                LinearGradient(colors: [Parch.night.opacity(0.05), Parch.night.opacity(0.95)], startPoint: .top, endPoint: .bottom)
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        WayPill(icon: "sun.max.fill", text: "VERSE OF THE DAY", dark: true)
+                        Spacer()
+                        Image(systemName: "bookmark").foregroundStyle(.white.opacity(0.82)).padding(10).background(.ultraThinMaterial, in: Circle())
+                    }
+                    Spacer(minLength: 0)
+                    Text("“\(dailyVerse.text)”")
+                        .font(.system(size: 25, weight: .semibold, design: .serif)).foregroundStyle(.white).lineSpacing(4).lineLimit(6).minimumScaleFactor(0.72)
+                    HStack {
+                        Text(dailyVerse.reference).font(.waySans(13, weight: .bold)).foregroundStyle(Parch.goldBright)
+                        Spacer()
+                        Label("Read chapter", systemImage: "arrow.up.right").font(.waySans(11, weight: .bold)).foregroundStyle(.white.opacity(0.82)).lineLimit(1).minimumScaleFactor(0.75)
+                    }
+                }.padding(20)
+            }
+            .frame(width: geometry.size.width, height: 330)
+            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.3), lineWidth: 1))
+            .shadow(color: Parch.night.opacity(0.25), radius: 24, y: 14)
+        }
+        .frame(height: 330)
+    }
+
+    private var dailyRhythm: some View {
+        HStack(spacing: 10) {
+            metric(icon: "flame.fill", value: "\(store.streak)", label: "day streak", color: Color.orange)
+            metric(icon: "text.book.closed.fill", value: "66", label: "Bible books", color: Parch.gold)
+            metric(icon: "arrow.down.circle.fill", value: "KJV", label: "offline", color: Parch.sage)
+        }
+    }
+
+    private func metric(icon: String, value: String, label: String, color: Color) -> some View {
+        VStack(spacing: 6) {
+            Image(systemName: icon).font(.system(size: 15, weight: .semibold)).foregroundStyle(color)
+            Text(value).font(.waySans(16, weight: .bold)).foregroundStyle(Parch.ink).lineLimit(1).minimumScaleFactor(0.7)
+            Text(label).font(.waySans(9, weight: .medium)).foregroundStyle(Parch.inkSoft).lineLimit(1).minimumScaleFactor(0.65)
+        }.frame(maxWidth: .infinity).padding(.vertical, 13).wayCard(radius: 17)
+    }
+
+    private var widgetSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .bottom) {
+                WaySectionTitle(eyebrow: "Scripture at a glance", title: "Your Bible widget")
+                Spacer(minLength: 10)
+                NavigationLink { WidgetStudioView() } label: { Text("CUSTOMIZE").font(.waySans(10, weight: .bold)).foregroundStyle(Parch.gold) }
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 15) {
+                    ScripturePreviewCard(settings: widgetSettings, size: .medium)
+                    ScripturePreviewCard(settings: widgetSettings, size: .small)
+                }.padding(.vertical, 12).padding(.horizontal, 2)
+            }
+            NavigationLink { WidgetStudioView() } label: {
+                HStack {
+                    Image(systemName: "wand.and.stars").foregroundStyle(Parch.gold)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Design your daily widget").font(.waySans(14, weight: .bold)).foregroundStyle(Parch.ink)
+                        Text("Themes, topics, pinned verses and every screen size").font(.waySans(11)).foregroundStyle(Parch.inkSoft).lineLimit(2)
+                    }
+                    Spacer(minLength: 6)
+                    Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Parch.gold)
+                }.padding(16).wayCard(radius: 18)
+            }.buttonStyle(.plain)
+        }
+    }
+
+    private var readingSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack { WaySectionTitle(eyebrow: "Complete Bible", title: "Continue reading"); Spacer() }
+            if let book = BibleLibrary.shared.book(named: UserDefaults.standard.string(forKey: "bible.lastBook") ?? "John"),
+               let chapter = book.chapters.first(where: { $0.chapter == UserDefaults.standard.integer(forKey: "bible.lastChapter").nonzero(or: 1) }) {
+                NavigationLink { BibleChapterReader(book: book, chapter: chapter) } label: {
+                    HStack(spacing: 14) {
+                        ZStack { RoundedRectangle(cornerRadius: 16).fill(Parch.night); Image(systemName: "book.pages.fill").font(.system(size: 23)).foregroundStyle(Parch.goldBright) }.frame(width: 60, height: 68)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("\(book.englishName) \(chapter.chapter)").font(.parchTitle(19)).foregroundStyle(Parch.ink)
+                            Text(chapter.verses.first?.text ?? "").font(.parchItalic(12)).foregroundStyle(Parch.inkSoft).lineLimit(2)
+                        }
+                        Spacer(minLength: 5)
+                        Image(systemName: "play.fill").font(.system(size: 12)).foregroundStyle(.white).padding(10).background(Parch.gold, in: Circle())
+                    }.padding(14).wayCard(radius: 20)
+                }.buttonStyle(.plain)
+            }
+        }
+    }
+
+    private var journeySection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            WaySectionTitle(eyebrow: "Explore the world behind the text", title: "Journey Atlas")
+            NavigationLink { JourneyTodayView() } label: {
+                ZStack(alignment: .bottomLeading) {
+                    if let image = WayArt.hero(store.activeJourney) { Image(uiImage: image).resizable().scaledToFill().frame(maxWidth: .infinity).frame(height: 205).clipped() }
+                    LinearGradient(colors: [.clear, Parch.night.opacity(0.94)], startPoint: .top, endPoint: .bottom)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("OPTIONAL BIBLE JOURNEY").font(.waySans(9, weight: .bold)).kerning(1.2).foregroundStyle(Parch.goldBright)
+                        Text(store.currentWaypoint?.0.title ?? "Abraham's Road").font(.parchTitle(22)).foregroundStyle(.white)
+                        Text("Read Scripture through the places and roads where it happened.").font(.parchItalic(12)).foregroundStyle(.white.opacity(0.72)).lineLimit(2)
+                    }.padding(17)
+                }.frame(height: 205).clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous)).shadow(color: Parch.night.opacity(0.18), radius: 18, y: 9)
+            }.buttonStyle(.plain)
+        }
+    }
+
+    private func bibleTarget(_ verse: ScriptureVerse) -> (BibleBook, BibleChapter)? {
+        guard let book = BibleLibrary.shared.book(named: verse.book), let chapter = book.chapters.first(where: { $0.chapter == verse.chapter }) else { return nil }
+        return (book, chapter)
+    }
+}
+
+private extension Int {
+    func nonzero(or fallback: Int) -> Int { self == 0 ? fallback : self }
+}
+
+struct JourneyTodayView: View {
+    @EnvironmentObject var store: WayStore
+
     var body: some View {
         ZStack {
             ParchBackground()

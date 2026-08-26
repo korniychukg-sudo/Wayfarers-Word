@@ -39,16 +39,18 @@ struct WayRootView: View {
         if let marker = ProcessInfo.processInfo.arguments.firstIndex(of: "-initialTab"),
            ProcessInfo.processInfo.arguments.indices.contains(marker + 1),
            let requested = Int(ProcessInfo.processInfo.arguments[marker + 1]) {
-            return min(max(requested, 0), 3)
+            return min(max(requested, 0), 4)
         }
 #endif
         return 0
     }()
+    @State private var biblePath: [BibleRoute] = []
     @Namespace private var tabMotion
 
     private let tabs: [(String, String)] = [
-        ("figure.walk", "Today"),
+        ("sun.max.fill", "Today"),
         ("text.book.closed.fill", "Bible"),
+        ("square.grid.2x2.fill", "Widgets"),
         ("map.fill", "Atlas"),
         ("book.closed.fill", "Journal")
     ]
@@ -58,8 +60,19 @@ struct WayRootView: View {
             Group {
                 switch tab {
                 case 0: NavigationStack { WalkView() }
-                case 1: NavigationStack { BibleLibraryView() }
-                case 2: NavigationStack { AtlasView() }
+                case 1: NavigationStack(path: $biblePath) {
+                    BibleLibraryView()
+                        .navigationDestination(for: BibleRoute.self) { route in
+                            if let book = BibleLibrary.shared.book(named: route.book),
+                               let chapter = book.chapters.first(where: { $0.chapter == route.chapter }) {
+                                BibleChapterReader(book: book, chapter: chapter)
+                            } else {
+                                BibleLibraryView()
+                            }
+                        }
+                }
+                case 2: NavigationStack { WidgetStudioView() }
+                case 3: NavigationStack { AtlasView() }
                 default: NavigationStack { LogbookView() }
                 }
             }
@@ -80,6 +93,15 @@ struct WayRootView: View {
             .padding(.bottom, 7)
         }
         .tint(Parch.gold)
+        .onOpenURL { url in
+            guard url.scheme == "wayfarersword", url.host == "bible",
+                  let parts = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                  let book = parts.queryItems?.first(where: { $0.name == "book" })?.value,
+                  let chapterText = parts.queryItems?.first(where: { $0.name == "chapter" })?.value,
+                  let chapter = Int(chapterText) else { return }
+            tab = 1
+            biblePath = [BibleRoute(book: book, chapter: chapter)]
+        }
     }
 
     private func tabButton(_ index: Int, _ label: String, _ symbol: String) -> some View {
@@ -107,4 +129,9 @@ struct WayRootView: View {
         .buttonStyle(.plain)
         .accessibilityLabel(label)
     }
+}
+
+struct BibleRoute: Hashable {
+    let book: String
+    let chapter: Int
 }

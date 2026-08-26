@@ -2,99 +2,84 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
-struct WayEntry: TimelineEntry {
+enum ScriptureThemeIntent: String, AppEnum {
+    case app = "App settings", parchment = "Parchment", midnight = "Midnight", dawn = "Dawn", sage = "Sage", ocean = "Ocean"
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Theme")
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .app: "Use app settings", .parchment: "Parchment", .midnight: "Midnight", .dawn: "Dawn", .sage: "Sage", .ocean: "Ocean"
+    ]
+}
+
+enum ScriptureTopicIntent: String, AppEnum {
+    case app = "App settings", daily = "Daily", hope = "Hope", peace = "Peace", strength = "Strength", wisdom = "Wisdom", love = "Love", faith = "Faith"
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Verse topic")
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .app: "Use app settings", .daily: "Verse of the day", .hope: "Hope", .peace: "Peace", .strength: "Strength", .wisdom: "Wisdom", .love: "Love", .faith: "Faith"
+    ]
+}
+
+enum ScriptureModeIntent: String, AppEnum {
+    case app = "App settings", daily = "Daily", fixed = "Fixed"
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Verse source")
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] = [
+        .app: "Use app settings", .daily: "Daily rotation", .fixed: "Pinned verse from app"
+    ]
+}
+
+struct ScriptureWidgetIntent: WidgetConfigurationIntent {
+    static var title: LocalizedStringResource = "Daily Scripture"
+    static var description = IntentDescription("Choose the verse, topic and appearance shown on your Home or Lock Screen.")
+    @Parameter(title: "Theme", default: .app) var theme: ScriptureThemeIntent
+    @Parameter(title: "Verse topic", default: .app) var topic: ScriptureTopicIntent
+    @Parameter(title: "Verse source", default: .app) var mode: ScriptureModeIntent
+    @Parameter(title: "Show reference", default: true) var showReference: Bool
+}
+
+struct ScriptureEntry: TimelineEntry {
     let date: Date
-    let snap: WaySnapshotData
+    let verse: ScriptureVerse
+    let settings: ScriptureWidgetSettings
 }
 
-let wayPlaceholder = WaySnapshotData(
-    journeyID: "abraham",
-    journeyTitle: "Abraham's Road",
-    waypointIndex: 0,
-    place: "Ur of the Chaldees",
-    reference: "Genesis 11:27-32",
-    firstVerse: "Now these are the generations of Terah.",
-    markerX: 0.85,
-    markerY: 0.78,
-    walkedInJourney: 0,
-    journeyWaypoints: 10,
-    milesWalked: 0,
-    walkedToday: false,
-    streak: 0
-)
-
-struct WayProvider: TimelineProvider {
-    func placeholder(in context: Context) -> WayEntry {
-        WayEntry(date: Date(), snap: wayPlaceholder)
+struct ScriptureProvider: AppIntentTimelineProvider {
+    func placeholder(in context: Context) -> ScriptureEntry {
+        ScriptureEntry(date: Date(), verse: ScriptureVerseCatalog.all[0], settings: .init())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (WayEntry) -> Void) {
-        completion(WayEntry(date: Date(), snap: WaySnapshotData.load() ?? wayPlaceholder))
+    func snapshot(for configuration: ScriptureWidgetIntent, in context: Context) async -> ScriptureEntry {
+        entry(for: configuration, date: Date())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WayEntry>) -> Void) {
-        let entry = WayEntry(date: Date(), snap: WaySnapshotData.load() ?? wayPlaceholder)
-        let next = Calendar.current.nextDate(after: Date(), matching: DateComponents(hour: 0, minute: 2), matchingPolicy: .nextTime) ?? Date().addingTimeInterval(3600 * 6)
-        completion(Timeline(entries: [entry], policy: .after(next)))
+    func timeline(for configuration: ScriptureWidgetIntent, in context: Context) async -> Timeline<ScriptureEntry> {
+        let now = Date()
+        let next = Calendar.current.nextDate(after: now, matching: DateComponents(hour: 0, minute: 2), matchingPolicy: .nextTime) ?? now.addingTimeInterval(21600)
+        return Timeline(entries: [entry(for: configuration, date: now)], policy: .after(next))
+    }
+
+    private func entry(for configuration: ScriptureWidgetIntent, date: Date) -> ScriptureEntry {
+        var settings = ScriptureWidgetSettings.load()
+        if configuration.theme != .app { settings.theme = configuration.theme.rawValue }
+        if configuration.topic != .app { settings.topic = configuration.topic.rawValue }
+        if configuration.mode != .app { settings.mode = configuration.mode.rawValue }
+        settings.showReference = configuration.showReference
+        return ScriptureEntry(date: date, verse: settings.selectedVerse(date: date), settings: settings)
     }
 }
 
-struct WalkStretchIntent: AppIntent {
-    static var title: LocalizedStringResource = "Walk this stretch"
-    static var description = IntentDescription("Marks the current Wayfarer's Word waypoint as walked.")
-
-    @Parameter(title: "Token")
-    var token: String
-
-    init() {}
-    init(token: String) { self.token = token }
-
-    func perform() async throws -> some IntentResult {
-        WayQueue.push(token)
-        if var snap = WaySnapshotData.load() {
-            snap = WaySnapshotData(journeyID: snap.journeyID, journeyTitle: snap.journeyTitle,
-                                   waypointIndex: snap.waypointIndex, place: snap.place,
-                                   reference: snap.reference, firstVerse: snap.firstVerse,
-                                   markerX: snap.markerX, markerY: snap.markerY,
-                                   walkedInJourney: snap.walkedInJourney + 1,
-                                   journeyWaypoints: snap.journeyWaypoints,
-                                   milesWalked: snap.milesWalked, walkedToday: true,
-                                   streak: max(1, snap.streak))
-            snap.save()
-        }
-        WidgetCenter.shared.reloadAllTimelines()
-        return .result()
-    }
-}
-
-struct RoadWidget: Widget {
+struct ScriptureWidget: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: WayShared.roadKind, provider: WayProvider()) { entry in
-            RoadWidgetView(entry: entry)
-                .containerBackground(for: .widget) { WayWidgetPaper() }
+        AppIntentConfiguration(kind: WayShared.scriptureKind, intent: ScriptureWidgetIntent.self, provider: ScriptureProvider()) { entry in
+            ScriptureWidgetView(entry: entry)
+                .containerBackground(for: .widget) { ScriptureWidgetBackground(theme: entry.settings.theme) }
+                .widgetURL(entry.verse.deepLink)
         }
-        .configurationDisplayName("On the Road")
-        .description("Your caravan's place on the map and the next reading.")
-        .supportedFamilies([.systemSmall, .systemMedium, .accessoryRectangular, .accessoryInline])
-    }
-}
-
-struct MilesWidget: Widget {
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: WayShared.milesKind, provider: WayProvider()) { entry in
-            MilesWidgetView(entry: entry)
-                .containerBackground(for: .widget) { WayWidgetPaper() }
-        }
-        .configurationDisplayName("Miles Walked")
-        .description("Your miles across all eight journeys.")
-        .supportedFamilies([.systemSmall, .accessoryCircular])
+        .configurationDisplayName("Daily Scripture")
+        .description("Read a daily verse and open its full Bible chapter. Customize topic, style and source.")
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .accessoryRectangular, .accessoryInline, .accessoryCircular])
     }
 }
 
 @main
 struct WayfarerWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        RoadWidget()
-        MilesWidget()
-    }
+    var body: some Widget { ScriptureWidget() }
 }
