@@ -342,7 +342,7 @@ struct ScripturePreviewCard: View {
     }
 
     private func brand(_ palette: (background: [Color], text: Color, soft: Color, accent: Color)) -> some View {
-        Label(settings.showTopic ? verse.topic.uppercased() : "WAYFARER'S WORD", systemImage: settings.icon)
+        Label(settings.showTopic ? verse.topic.uppercased() : "KJV BIBLE WIDGETS", systemImage: settings.icon)
             .font(.waySans(9, weight: .bold)).kerning(1.1).foregroundStyle(palette.accent).lineLimit(1)
     }
 
@@ -564,7 +564,7 @@ struct WidgetStudioView: View {
     private var addInstructions: some View {
         VStack(alignment: .leading, spacing: 14) {
             Label("ADD IT TO YOUR SCREEN", systemImage: "apps.iphone").font(.waySans(11, weight: .bold)).kerning(1.2).foregroundStyle(Parch.gold)
-            ForEach(Array(["Touch and hold an empty area on your Home Screen", "Tap Edit, then Add Widget", "Search Wayfarer's Word, choose a size and tap Add Widget"].enumerated()), id: \.offset) { item in
+            ForEach(Array(["Touch and hold an empty area on your Home Screen", "Tap Edit, then Add Widget", "Search KJV Bible Widgets, choose a size and tap Add Widget"].enumerated()), id: \.offset) { item in
                 HStack(alignment: .top, spacing: 12) {
                     Text("\(item.offset + 1)").font(.waySans(11, weight: .bold)).foregroundStyle(.white).frame(width: 25, height: 25).background(Parch.gold, in: Circle())
                     Text(item.element).font(.waySans(13, weight: .medium)).foregroundStyle(Parch.ink).fixedSize(horizontal: false, vertical: true)

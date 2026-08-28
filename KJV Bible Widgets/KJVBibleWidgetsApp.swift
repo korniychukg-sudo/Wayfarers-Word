@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct WayfarersWordApp: App {
+struct KJVBibleWidgetsApp: App {
     @StateObject private var store = WayStore.shared
     @StateObject private var shop = WayShop.shared
     @Environment(\.scenePhase) private var scenePhase
@@ -94,7 +94,7 @@ struct WayRootView: View {
         }
         .tint(Parch.gold)
         .onOpenURL { url in
-            guard url.scheme == "wayfarersword", url.host == "bible",
+            guard url.scheme == "kjvbiblewidgets", url.host == "bible",
                   let parts = URLComponents(url: url, resolvingAgainstBaseURL: false),
                   let book = parts.queryItems?.first(where: { $0.name == "book" })?.value,
                   let chapterText = parts.queryItems?.first(where: { $0.name == "chapter" })?.value,

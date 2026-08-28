@@ -176,7 +176,7 @@ final class WayStore: ObservableObject {
         WayBadge(id: "first", title: "First Step", detail: "Walk your first waypoint"),
         WayBadge(id: "onedone", title: "Road's End", detail: "Finish a whole journey"),
         WayBadge(id: "threedone", title: "Seasoned Walker", detail: "Finish three journeys"),
-        WayBadge(id: "alldone", title: "Wayfarer", detail: "Finish all eight journeys"),
+        WayBadge(id: "alldone", title: "Pilgrim", detail: "Finish all eight journeys"),
         WayBadge(id: "m100", title: "Hundred Miles", detail: "Walk 100 miles of road"),
         WayBadge(id: "m1000", title: "Thousand Miles", detail: "Walk 1,000 miles of road"),
         WayBadge(id: "m3000", title: "The Long Haul", detail: "Walk 3,000 miles of road"),

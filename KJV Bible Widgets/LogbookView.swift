@@ -141,7 +141,7 @@ struct LogbookView: View {
 
                     VStack(spacing: 0) {
                         if !store.plusUnlocked {
-                            settingRow(icon: "star", label: "Wayfarer Plus", detail: "Open all eight roads") {
+                            settingRow(icon: "star", label: "Bible Widgets Plus", detail: "Open all eight roads") {
                                 showPaywall = true
                             }
                             divider
@@ -175,7 +175,7 @@ struct LogbookView: View {
                             .foregroundColor(Parch.gold)
                     }
 
-                    Text("Wayfarer's Word 1 — scripture experienced place by place. King James text, public domain. Everything you do here stays on this device.")
+                    Text("KJV Bible Widgets 1 — scripture experienced place by place. King James text, public domain. Everything you do here stays on this device.")
                         .font(.parchSerif(12))
                         .foregroundColor(Parch.inkFaint)
                         .padding(.bottom, 100)

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "GT0000000000000000004001"
-               BuildableName = "Wayfarer's Word.app"
-               BlueprintName = "Wayfarer's Word"
-               ReferencedContainer = "container:Wayfarer's Word.xcodeproj">
+               BuildableName = "KJV Bible Widgets.app"
+               BlueprintName = "KJV Bible Widgets"
+               ReferencedContainer = "container:KJV Bible Widgets.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "GT0000000000000000004001"
-            BuildableName = "Wayfarer's Word.app"
-            BlueprintName = "Wayfarer's Word"
-            ReferencedContainer = "container:Wayfarer's Word.xcodeproj">
+            BuildableName = "KJV Bible Widgets.app"
+            BlueprintName = "KJV Bible Widgets"
+            ReferencedContainer = "container:KJV Bible Widgets.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "GT0000000000000000004001"
-            BuildableName = "Wayfarer's Word.app"
-            BlueprintName = "Wayfarer's Word"
-            ReferencedContainer = "container:Wayfarer's Word.xcodeproj">
+            BuildableName = "KJV Bible Widgets.app"
+            BlueprintName = "KJV Bible Widgets"
+            ReferencedContainer = "container:KJV Bible Widgets.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

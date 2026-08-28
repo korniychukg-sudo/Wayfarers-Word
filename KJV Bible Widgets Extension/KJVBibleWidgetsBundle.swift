@@ -80,6 +80,6 @@ struct ScriptureWidget: Widget {
 }
 
 @main
-struct WayfarerWidgetBundle: WidgetBundle {
+struct KJVBibleWidgetsBundle: WidgetBundle {
     var body: some Widget { ScriptureWidget() }
 }

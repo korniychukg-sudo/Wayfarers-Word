@@ -50,7 +50,7 @@ struct ScriptureWidgetView: View {
     private var brand: some View {
         HStack(spacing: 6) {
             Image(systemName: entry.settings.icon).font(.system(size: 9, weight: .bold))
-            Text(entry.settings.showTopic ? entry.verse.topic.uppercased() : "WAYFARER'S WORD")
+            Text(entry.settings.showTopic ? entry.verse.topic.uppercased() : "KJV BIBLE WIDGETS")
                 .font(.system(size: 9, weight: .bold, design: .rounded)).tracking(1.2).lineLimit(1)
         }.foregroundStyle(p.accent)
     }

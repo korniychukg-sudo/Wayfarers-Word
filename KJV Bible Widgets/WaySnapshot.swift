@@ -4,12 +4,12 @@ import WidgetKit
 #endif
 
 enum WayShared {
-    static let groupID = "group.com.wayfarersword.app"
+    static let groupID = "group.com.kjvbiblewidgets.app"
     static let snapshotKey = "ww.widget.snapshot"
     static let queueKey = "ww.widget.queue"
-    static let roadKind = "WayfarerRoad"
-    static let milesKind = "WayfarerMiles"
-    static let scriptureKind = "WayfarerScripture"
+    static let roadKind = "KJVBibleRoad"
+    static let milesKind = "KJVBibleMiles"
+    static let scriptureKind = "KJVBibleScripture"
     static let widgetSettingsKey = "ww.scripture.settings.v1"
 }
 
@@ -24,7 +24,7 @@ struct ScriptureVerse: Codable, Identifiable, Hashable {
     var reference: String { "\(book) \(chapter):\(verse)" }
     var deepLink: URL? {
         var parts = URLComponents()
-        parts.scheme = "wayfarersword"
+        parts.scheme = "kjvbiblewidgets"
         parts.host = "bible"
         parts.queryItems = [
             URLQueryItem(name: "book", value: book),

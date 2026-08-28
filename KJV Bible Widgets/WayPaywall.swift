@@ -235,7 +235,7 @@ struct WayPrivacyView: View {
                         .font(.parchTitle(24))
                         .foregroundColor(Parch.ink)
                     Group {
-                        Text("Wayfarer's Word keeps everything on your device.")
+                        Text("KJV Bible Widgets keeps everything on your device.")
                         Text("Your walked waypoints, miles, streaks and quiz scores live only in this app's local storage and its App Group container, which exists so the widgets can show where you stand on the road. Nothing is uploaded, collected, or shared; there are no analytics, no advertising, and no account.")
                         Text("Purchases are handled entirely by Apple through the App Store. The app never sees your payment details; it only receives Apple's confirmation that the unlock belongs to your Apple ID, which is how Restore Purchases works on a new device.")
                         Text("The one network connection the app ever makes is Apple's own StoreKit service for the purchase sheet and prices. If you never open the unlock screen, the app works entirely offline.")

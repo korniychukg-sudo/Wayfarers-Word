@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		GT0000000000000000002001 /* WayfarersWordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001001 /* WayfarersWordApp.swift */; };
+		GT0000000000000000002001 /* KJVBibleWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001001 /* KJVBibleWidgetsApp.swift */; };
 		GT0000000000000000002002 /* ParchTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001002 /* ParchTheme.swift */; };
 		GT0000000000000000002003 /* WayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001003 /* WayModels.swift */; };
 		GT0000000000000000002004 /* WayStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001004 /* WayStore.swift */; };
@@ -24,11 +24,11 @@
 		GT0000000000000000002032 /* BibleReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001032 /* BibleReaderView.swift */; };
 		GT0000000000000000002033 /* kjv.json in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001033 /* kjv.json */; };
 		GT0000000000000000002017 /* journeys.json in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001017 /* journeys.json */; };
-		GT0000000000000000002018 /* WayfarerWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001018 /* WayfarerWidgets.swift */; };
+		GT0000000000000000002018 /* KJVBibleWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001018 /* KJVBibleWidgetsBundle.swift */; };
 		GT0000000000000000002019 /* WayWidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001019 /* WayWidgetViews.swift */; };
 		GT0000000000000000002030 /* WaySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001011 /* WaySnapshot.swift */; };
 		GT0000000000000000002021 /* MapsSmall in Resources */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001020 /* MapsSmall */; };
-		GT0000000000000000002022 /* WayfarersWordWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001021 /* WayfarersWordWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		GT0000000000000000002022 /* KJVBibleWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = GT0000000000000000001021 /* KJVBibleWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +37,7 @@
 			containerPortal = GT0000000000000000005001 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = GT0000000000000000004002;
-			remoteInfo = WayfarersWordWidgets;
+			remoteInfo = KJVBibleWidgetsExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -48,7 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				GT0000000000000000002022 /* WayfarersWordWidgets.appex in Embed Foundation Extensions */,
+				GT0000000000000000002022 /* KJVBibleWidgetsExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,8 +56,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		GT0000000000000000001000 /* Wayfarer's Word.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wayfarer's Word.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		GT0000000000000000001001 /* WayfarersWordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayfarersWordApp.swift; sourceTree = "<group>"; };
+		GT0000000000000000001000 /* KJV Bible Widgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KJV Bible Widgets.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		GT0000000000000000001001 /* KJVBibleWidgetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVBibleWidgetsApp.swift; sourceTree = "<group>"; };
 		GT0000000000000000001002 /* ParchTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParchTheme.swift; sourceTree = "<group>"; };
 		GT0000000000000000001003 /* WayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayModels.swift; sourceTree = "<group>"; };
 		GT0000000000000000001004 /* WayStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayStore.swift; sourceTree = "<group>"; };
@@ -74,14 +74,14 @@
 		GT0000000000000000001017 /* journeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = journeys.json; sourceTree = "<group>"; };
 		GT0000000000000000001032 /* BibleReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleReaderView.swift; sourceTree = "<group>"; };
 		GT0000000000000000001033 /* kjv.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = kjv.json; sourceTree = "<group>"; };
-		GT0000000000000000001018 /* WayfarerWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayfarerWidgets.swift; sourceTree = "<group>"; };
+		GT0000000000000000001018 /* KJVBibleWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVBibleWidgetsBundle.swift; sourceTree = "<group>"; };
 		GT0000000000000000001019 /* WayWidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayWidgetViews.swift; sourceTree = "<group>"; };
 		GT0000000000000000001020 /* MapsSmall */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MapsSmall; sourceTree = "<group>"; };
-		GT0000000000000000001021 /* WayfarersWordWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WayfarersWordWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		GT0000000000000000001021 /* KJVBibleWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KJVBibleWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		GT0000000000000000001022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		GT0000000000000000001023 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		GT0000000000000000001024 /* WayfarersWord.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WayfarersWord.entitlements; sourceTree = "<group>"; };
-		GT0000000000000000001025 /* WayfarersWordWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WayfarersWordWidgets.entitlements; sourceTree = "<group>"; };
+		GT0000000000000000001024 /* KJVBibleWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KJVBibleWidgets.entitlements; sourceTree = "<group>"; };
+		GT0000000000000000001025 /* KJVBibleWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KJVBibleWidgetsExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,16 +105,16 @@
 		GT0000000000000000008001 = {
 			isa = PBXGroup;
 			children = (
-				GT0000000000000000008002 /* Wayfarer's Word */,
-				GT0000000000000000008003 /* Wayfarer's Word Widgets */,
+				GT0000000000000000008002 /* KJV Bible Widgets */,
+				GT0000000000000000008003 /* KJV Bible Widgets Extension */,
 				GT0000000000000000008004 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		GT0000000000000000008002 /* Wayfarer's Word */ = {
+		GT0000000000000000008002 /* KJV Bible Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				GT0000000000000000001001 /* WayfarersWordApp.swift */,
+				GT0000000000000000001001 /* KJVBibleWidgetsApp.swift */,
 				GT0000000000000000001002 /* ParchTheme.swift */,
 				GT0000000000000000001003 /* WayModels.swift */,
 				GT0000000000000000001004 /* WayStore.swift */,
@@ -132,28 +132,28 @@
 				GT0000000000000000001017 /* journeys.json */,
 				GT0000000000000000001033 /* kjv.json */,
 				GT0000000000000000001022 /* Info.plist */,
-				GT0000000000000000001024 /* WayfarersWord.entitlements */,
+				GT0000000000000000001024 /* KJVBibleWidgets.entitlements */,
 			);
-			path = "Wayfarer's Word";
+			path = "KJV Bible Widgets";
 			sourceTree = "<group>";
 		};
-		GT0000000000000000008003 /* Wayfarer's Word Widgets */ = {
+		GT0000000000000000008003 /* KJV Bible Widgets Extension */ = {
 			isa = PBXGroup;
 			children = (
-				GT0000000000000000001018 /* WayfarerWidgets.swift */,
+				GT0000000000000000001018 /* KJVBibleWidgetsBundle.swift */,
 				GT0000000000000000001019 /* WayWidgetViews.swift */,
 				GT0000000000000000001020 /* MapsSmall */,
 				GT0000000000000000001023 /* Info.plist */,
-				GT0000000000000000001025 /* WayfarersWordWidgets.entitlements */,
+				GT0000000000000000001025 /* KJVBibleWidgetsExtension.entitlements */,
 			);
-			path = "Wayfarer's Word Widgets";
+			path = "KJV Bible Widgets Extension";
 			sourceTree = "<group>";
 		};
 		GT0000000000000000008004 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				GT0000000000000000001000 /* Wayfarer's Word.app */,
-				GT0000000000000000001021 /* WayfarersWordWidgets.appex */,
+				GT0000000000000000001000 /* KJV Bible Widgets.app */,
+				GT0000000000000000001021 /* KJVBibleWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,9 +161,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		GT0000000000000000004001 /* Wayfarer's Word */ = {
+		GT0000000000000000004001 /* KJV Bible Widgets */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "Wayfarer's Word" */;
+			buildConfigurationList = GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "KJV Bible Widgets" */;
 			buildPhases = (
 				GT0000000000000000010001 /* Sources */,
 				GT0000000000000000007001 /* Frameworks */,
@@ -175,14 +175,14 @@
 			dependencies = (
 				GT0000000000000000012001 /* PBXTargetDependency */,
 			);
-			name = "Wayfarer's Word";
-			productName = "Wayfarer's Word";
-			productReference = GT0000000000000000001000 /* Wayfarer's Word.app */;
+			name = "KJV Bible Widgets";
+			productName = "KJV Bible Widgets";
+			productReference = GT0000000000000000001000 /* KJV Bible Widgets.app */;
 			productType = "com.apple.product-type.application";
 		};
-		GT0000000000000000004002 /* WayfarersWordWidgets */ = {
+		GT0000000000000000004002 /* KJVBibleWidgetsExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "WayfarersWordWidgets" */;
+			buildConfigurationList = GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "KJVBibleWidgetsExtension" */;
 			buildPhases = (
 				GT0000000000000000010002 /* Sources */,
 				GT0000000000000000007002 /* Frameworks */,
@@ -192,9 +192,9 @@
 			);
 			dependencies = (
 			);
-			name = WayfarersWordWidgets;
-			productName = WayfarersWordWidgets;
-			productReference = GT0000000000000000001021 /* WayfarersWordWidgets.appex */;
+			name = KJVBibleWidgetsExtension;
+			productName = KJVBibleWidgetsExtension;
+			productReference = GT0000000000000000001021 /* KJVBibleWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -215,7 +215,7 @@
 					};
 				};
 			};
-			buildConfigurationList = GT0000000000000000009001 /* Build configuration list for PBXProject "Wayfarer's Word" */;
+			buildConfigurationList = GT0000000000000000009001 /* Build configuration list for PBXProject "KJV Bible Widgets" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -228,8 +228,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				GT0000000000000000004001 /* Wayfarer's Word */,
-				GT0000000000000000004002 /* WayfarersWordWidgets */,
+				GT0000000000000000004001 /* KJV Bible Widgets */,
+				GT0000000000000000004002 /* KJVBibleWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -262,7 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				GT0000000000000000002001 /* WayfarersWordApp.swift in Sources */,
+				GT0000000000000000002001 /* KJVBibleWidgetsApp.swift in Sources */,
 				GT0000000000000000002002 /* ParchTheme.swift in Sources */,
 				GT0000000000000000002003 /* WayModels.swift in Sources */,
 				GT0000000000000000002004 /* WayStore.swift in Sources */,
@@ -281,7 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				GT0000000000000000002018 /* WayfarerWidgets.swift in Sources */,
+				GT0000000000000000002018 /* KJVBibleWidgetsBundle.swift in Sources */,
 				GT0000000000000000002019 /* WayWidgetViews.swift in Sources */,
 				GT0000000000000000002030 /* WaySnapshot.swift in Sources */,
 			);
@@ -292,7 +292,7 @@
 /* Begin PBXTargetDependency section */
 		GT0000000000000000012001 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = GT0000000000000000004002 /* WayfarersWordWidgets */;
+			target = GT0000000000000000004002 /* KJVBibleWidgetsExtension */;
 			targetProxy = GT0000000000000000003001 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -337,7 +337,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wayfarersword.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kjvbiblewidgets.app;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -376,7 +376,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wayfarersword.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kjvbiblewidgets.app;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -387,14 +387,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word/WayfarersWord.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "KJV Bible Widgets/KJVBibleWidgets.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Wayfarer's Word/Info.plist";
+				INFOPLIST_FILE = "KJV Bible Widgets/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -417,14 +417,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word/WayfarersWord.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "KJV Bible Widgets/KJVBibleWidgets.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Wayfarer's Word/Info.plist";
+				INFOPLIST_FILE = "KJV Bible Widgets/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -446,13 +446,13 @@
 		GT0000000000000000013005 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word Widgets/WayfarersWordWidgets.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "KJV Bible Widgets Extension/KJVBibleWidgetsExtension.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Wayfarer's Word Widgets/Info.plist";
+				INFOPLIST_FILE = "KJV Bible Widgets Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -476,13 +476,13 @@
 		GT0000000000000000013006 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Wayfarer's Word Widgets/WayfarersWordWidgets.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "KJV Bible Widgets Extension/KJVBibleWidgetsExtension.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Wayfarer's Word Widgets/Info.plist";
+				INFOPLIST_FILE = "KJV Bible Widgets Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -506,7 +506,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		GT0000000000000000009001 /* Build configuration list for PBXProject "Wayfarer's Word" */ = {
+		GT0000000000000000009001 /* Build configuration list for PBXProject "KJV Bible Widgets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				GT0000000000000000013001 /* Debug */,
@@ -515,7 +515,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "Wayfarer's Word" */ = {
+		GT0000000000000000009002 /* Build configuration list for PBXNativeTarget "KJV Bible Widgets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				GT0000000000000000013003 /* Debug */,
@@ -524,7 +524,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "WayfarersWordWidgets" */ = {
+		GT0000000000000000009003 /* Build configuration list for PBXNativeTarget "KJVBibleWidgetsExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				GT0000000000000000013005 /* Debug */,

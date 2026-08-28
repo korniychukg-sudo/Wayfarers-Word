@@ -89,7 +89,7 @@ struct AtlasView: View {
             VStack(alignment: .leading, spacing: 9) {
                 HStack {
                     if done { WayPill(icon: "checkmark.seal.fill", text: "COMPLETED", dark: true) }
-                    else if locked { WayPill(icon: "lock.fill", text: "WAYFARER PLUS", dark: true) }
+                    else if locked { WayPill(icon: "lock.fill", text: "BIBLE WIDGETS PLUS", dark: true) }
                     else { WayPill(icon: "figure.walk", text: "YOUR FIRST ROAD", dark: true) }
                     Spacer()
                     Image(systemName: locked ? "lock.fill" : "arrow.up.right")

@@ -5,10 +5,10 @@ import StoreKit
 final class WayShop: ObservableObject {
     static let shared = WayShop()
 
-    static let weeklyID = "com.wayfarersword.app.plus.weekly"
-    static let monthlyID = "com.wayfarersword.app.plus.monthly"
-    static let yearlyID = "com.wayfarersword.app.plus.yearly"
-    static let lifetimeID = "com.wayfarersword.app.plus.lifetime"
+    static let weeklyID = "com.kjvbiblewidgets.app.plus.weekly"
+    static let monthlyID = "com.kjvbiblewidgets.app.plus.monthly"
+    static let yearlyID = "com.kjvbiblewidgets.app.plus.yearly"
+    static let lifetimeID = "com.kjvbiblewidgets.app.plus.lifetime"
     static let allIDs = [weeklyID, monthlyID, yearlyID, lifetimeID]
 
     @Published var products: [Product] = []
