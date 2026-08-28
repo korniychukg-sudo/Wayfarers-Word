@@ -4,7 +4,7 @@ import WidgetKit
 #endif
 
 enum WayShared {
-    static let groupID = "group.com.kjvbiblewidgets.app"
+    static let groupID = "group.com.owenfortin.kjvbiblewidgets"
     static let snapshotKey = "ww.widget.snapshot"
     static let queueKey = "ww.widget.queue"
     static let roadKind = "KJVBibleRoad"
