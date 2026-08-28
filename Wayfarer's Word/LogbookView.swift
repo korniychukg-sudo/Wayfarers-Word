@@ -157,6 +157,11 @@ struct LogbookView: View {
                         }
                         .buttonStyle(.plain)
                         divider
+                        Link(destination: WayLinks.support) {
+                            settingBody(icon: "support", label: "Support", detail: "Questions, feedback and help")
+                        }
+                        .buttonStyle(.plain)
+                        divider
                         settingRow(icon: "cross", label: "Reset progress", detail: "Clears every mile, streak and award") {
                             confirmReset = true
                         }
@@ -211,7 +216,7 @@ struct LogbookView: View {
 
     private func settingBody(icon: String, label: String, detail: String?) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: icon == "star" ? "sparkles" : icon == "restore" ? "arrow.clockwise" : icon == "cross" ? "trash" : "hand.raised.fill")
+            Image(systemName: icon == "star" ? "sparkles" : icon == "restore" ? "arrow.clockwise" : icon == "cross" ? "trash" : icon == "support" ? "lifepreserver.fill" : "hand.raised.fill")
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(icon == "cross" ? Parch.road : Parch.gold)
                 .frame(width: 22)

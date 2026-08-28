@@ -127,9 +127,10 @@ struct WayPaywallView: View {
                             .multilineTextAlignment(.center)
                     }
 
-                    HStack(spacing: 18) {
-                        Link("Terms of Use", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                    HStack(spacing: 16) {
+                        Link("Terms of Use", destination: WayLinks.terms)
                         NavigationLink("Privacy Policy") { WayPrivacyView() }
+                        Link("Support", destination: WayLinks.support)
                     }
                     .font(.parchSerif(12))
                     .foregroundColor(Parch.inkFaint)
@@ -242,6 +243,23 @@ struct WayPrivacyView: View {
                     }
                     .font(.parchSerif(15))
                     .foregroundColor(Parch.inkSoft)
+
+                    Link(destination: WayLinks.support) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "lifepreserver.fill")
+                                .font(.system(size: 15, weight: .semibold))
+                            Text("Support and contact")
+                                .font(.parchTitle(14.5))
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .font(.system(size: 11, weight: .bold))
+                        }
+                        .foregroundStyle(Parch.gold)
+                        .padding(14)
+                        .background(RoundedRectangle(cornerRadius: 13).fill(Parch.gold.opacity(0.09)))
+                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Parch.gold.opacity(0.45), lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
                 }
                 .padding(.vertical, 22)
                 .wayResponsiveColumn(maxWidth: 760, inset: 22)

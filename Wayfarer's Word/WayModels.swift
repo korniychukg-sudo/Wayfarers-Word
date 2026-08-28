@@ -1,5 +1,10 @@
 import Foundation
 
+enum WayLinks {
+    static let support = URL(string: "https://www.termsfeed.com/live/1ca6ac34-ad04-481a-90ad-a31ab4af3740")!
+    static let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+}
+
 struct WWWaypoint: Codable, Identifiable {
     let place: String
     let placeNote: String
