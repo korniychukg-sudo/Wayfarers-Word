@@ -157,6 +157,11 @@ struct LogbookView: View {
                         }
                         .buttonStyle(.plain)
                         divider
+                        Link(destination: WayLinks.terms) {
+                            settingBody(icon: "terms", label: "Terms of Use", detail: "Licence agreement for subscriptions")
+                        }
+                        .buttonStyle(.plain)
+                        divider
                         Link(destination: WayLinks.support) {
                             settingBody(icon: "support", label: "Support", detail: "Questions, feedback and help")
                         }
@@ -216,7 +221,7 @@ struct LogbookView: View {
 
     private func settingBody(icon: String, label: String, detail: String?) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: icon == "star" ? "sparkles" : icon == "restore" ? "arrow.clockwise" : icon == "cross" ? "trash" : icon == "support" ? "lifepreserver.fill" : "hand.raised.fill")
+            Image(systemName: icon == "star" ? "sparkles" : icon == "restore" ? "arrow.clockwise" : icon == "cross" ? "trash" : icon == "support" ? "lifepreserver.fill" : icon == "terms" ? "doc.text.fill" : "hand.raised.fill")
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(icon == "cross" ? Parch.road : Parch.gold)
                 .frame(width: 22)
