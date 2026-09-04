@@ -1,6 +1,14 @@
 import Foundation
 import StoreKit
 
+struct WayPlan {
+    let id: String
+    let name: String
+    let price: String
+    let perWeek: String?
+    let savings: Int?
+}
+
 @MainActor
 final class WayShop: ObservableObject {
     static let shared = WayShop()
@@ -31,6 +39,25 @@ final class WayShop: ObservableObject {
 
     func product(_ id: String) -> Product? { products.first { $0.id == id } }
 
+    var plans: [WayPlan] {
+#if DEBUG
+        if let fixture = WayShop.reviewPlans { return fixture }
+#endif
+        return products.map { WayPlan(id: $0.id, name: $0.displayName, price: $0.displayPrice, perWeek: perWeekPrice($0), savings: savingsPercent($0)) }
+    }
+
+#if DEBUG
+    static let reviewPlans: [WayPlan]? = {
+        guard ProcessInfo.processInfo.arguments.contains("-reviewPlans") else { return nil }
+        return [
+            WayPlan(id: weeklyID, name: "Plus Weekly", price: "$4.99", perWeek: nil, savings: nil),
+            WayPlan(id: monthlyID, name: "Plus Monthly", price: "$9.99", perWeek: "$2.30", savings: 54),
+            WayPlan(id: yearlyID, name: "Plus Yearly", price: "$29.99", perWeek: "$0.58", savings: 88),
+            WayPlan(id: lifetimeID, name: "Plus Lifetime", price: "$39.99", perWeek: nil, savings: nil)
+        ]
+    }()
+#endif
+
     func weeksIn(_ product: Product) -> Double? {
         guard let period = product.subscription?.subscriptionPeriod else { return nil }
         switch period.unit {
@@ -60,6 +87,9 @@ final class WayShop: ObservableObject {
     }
 
     func loadProducts() async {
+#if DEBUG
+        if WayShop.reviewPlans != nil { return }
+#endif
         guard products.isEmpty else { return }
         loading = true
         defer { loading = false }

@@ -3,7 +3,13 @@ import SwiftUI
 struct LogbookView: View {
     @EnvironmentObject var store: WayStore
     @EnvironmentObject var shop: WayShop
-    @State private var showPaywall = false
+    @State private var showPaywall: Bool = {
+#if DEBUG
+        return ProcessInfo.processInfo.arguments.contains("-showPaywall")
+#else
+        return false
+#endif
+    }()
     @State private var confirmReset = false
 
     var body: some View {

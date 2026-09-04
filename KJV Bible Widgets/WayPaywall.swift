@@ -12,6 +12,7 @@ struct WayPaywallView: View {
         ZStack {
             ParchBackground()
             ScrollView(showsIndicators: false) {
+                ScrollViewReader { proxy in
                 LazyVStack(spacing: 18) {
                     HStack {
                         Spacer()
@@ -47,6 +48,7 @@ struct WayPaywallView: View {
                         .font(.parchTitle(29))
                         .foregroundColor(Parch.ink)
                         .multilineTextAlignment(.center)
+                        .id("offer")
 
                     Text("Eight journeys, 79 waypoints, 7,780 miles of scripture walked place by place — from Ur of the Chaldees to the Appian Way into Rome.")
                         .font(.parchSerif(15))
@@ -62,7 +64,7 @@ struct WayPaywallView: View {
                     }
                     .padding(.vertical, 4)
 
-                    if shop.products.isEmpty {
+                    if shop.plans.isEmpty {
                         VStack(spacing: 10) {
                             if shop.loading {
                                 ProgressView().padding(.vertical, 24)
@@ -81,8 +83,8 @@ struct WayPaywallView: View {
                         .padding(.vertical, 12)
                     } else {
                         VStack(spacing: 10) {
-                            ForEach(shop.products, id: \.id) { product in
-                                planRow(product)
+                            ForEach(shop.plans, id: \.id) { plan in
+                                planRow(plan)
                             }
                         }
                     }
@@ -107,8 +109,8 @@ struct WayPaywallView: View {
                             .shadow(color: Parch.water.opacity(0.24), radius: 14, y: 8)
                     }
                     .buttonStyle(.plain)
-                    .disabled(shop.products.isEmpty || shop.purchasing)
-                    .opacity(shop.products.isEmpty ? 0.5 : 1)
+                    .disabled(shop.plans.isEmpty || shop.purchasing)
+                    .opacity(shop.plans.isEmpty ? 0.5 : 1)
 
                     Button {
                         Task { await shop.restore() }
@@ -142,12 +144,22 @@ struct WayPaywallView: View {
                         .padding(.bottom, 24)
                 }
                 .wayResponsiveColumn(maxWidth: 720, inset: 22)
+                .task { await scrollForReview(proxy) }
+                }
             }
         }
         .task { await shop.loadProducts() }
         .onChange(of: store.plusUnlocked) { _, unlocked in
             if unlocked { onClose() }
         }
+    }
+
+    private func scrollForReview(_ proxy: ScrollViewProxy) async {
+#if DEBUG
+        guard ProcessInfo.processInfo.arguments.contains("-scrollToOffer") else { return }
+        try? await Task.sleep(nanoseconds: 900_000_000)
+        proxy.scrollTo("offer", anchor: .top)
+#endif
     }
 
     private func featureRow(_ text: String) -> some View {
@@ -161,25 +173,25 @@ struct WayPaywallView: View {
         .padding(.horizontal, 14)
     }
 
-    private func planRow(_ product: Product) -> some View {
-        let isSelected = selected == product.id
-        let badge: String? = product.id == WayShop.yearlyID ? "BEST VALUE" : (product.id == WayShop.lifetimeID ? "ONE TIME" : nil)
+    private func planRow(_ plan: WayPlan) -> some View {
+        let isSelected = selected == plan.id
+        let badge: String? = plan.id == WayShop.yearlyID ? "BEST VALUE" : (plan.id == WayShop.lifetimeID ? "ONE TIME" : nil)
         let caption: String
-        switch product.id {
+        switch plan.id {
         case WayShop.weeklyID: caption = "per week"
         case WayShop.monthlyID: caption = "per month"
         case WayShop.yearlyID: caption = "per year"
         default: caption = "once, forever"
         }
-        let savings = shop.savingsPercent(product)
-        let perWeek = shop.perWeekPrice(product)
+        let savings = plan.savings
+        let perWeek = plan.perWeek
         return Button {
-            selected = product.id
+            selected = plan.id
         } label: {
             HStack(spacing: 10) {
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 8) {
-                        Text(product.displayName.isEmpty ? planName(product.id) : product.displayName)
+                        Text(plan.name.isEmpty ? planName(plan.id) : plan.name)
                             .font(.parchTitle(15))
                             .foregroundColor(Parch.ink)
                         if let badge {
@@ -191,7 +203,7 @@ struct WayPaywallView: View {
                                 .background(Capsule().fill(Parch.road))
                         }
                     }
-                    Text(perWeek == nil ? "\(product.displayPrice) \(caption)" : "\(product.displayPrice) \(caption) · \(perWeek ?? "") / week")
+                    Text(perWeek == nil ? "\(plan.price) \(caption)" : "\(plan.price) \(caption) · \(perWeek ?? "") / week")
                         .font(.parchSerif(13))
                         .foregroundColor(Parch.inkSoft)
                         .lineLimit(1)
